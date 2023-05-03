@@ -1,0 +1,53 @@
+Controllers found: 1
+
+Physical Device Information:
+----------------------------
+
+Channel            : 0
+Device             : 4
+Vendor             : SAMSUNG 
+Model              : MZILT7T6HALA/007
+Serial number      : S5DDN1234567
+Device Type        : SAS
+
+Protocol Specific port log page for SAS SSP:
+--------------------------------------------
+
+Relative Target Port ID                     : 1
+   Generation Code                          : 7
+   Number of PHYs                           : 1
+   PHY Identifier                           : 0
+      Attached Device Type                  : End device
+      Attached Reason                       : Unknown
+      Reason                                : Loss of DWORD synchronization
+      Negotiated Logical Link Rate          : PHY enabled - 12 Gbps
+      Attached Initiator Port               : SSP - 1  STP - 1  SMP - 1
+      Attached Target Port                  : SSP - 0  STP - 0  SMP - 0
+      SAS Address                           : 0x5002538b1184df62
+      Attached SAS Address                  : 0x50000d1704b53284
+      Attached PHY Identifier               : 6
+      Invalid DWORD Count                   : 21
+      Running Disparity Error Count         : 19
+      Loss of DWORD Synchronization Count   : 5
+      PHY Reset Problem Count               : 0
+
+Relative Target Port ID                     : 2
+   Generation Code                          : 7
+   Number of PHYs                           : 1
+   PHY Identifier                           : 1
+      Attached Device Type                  : No device attached
+      Attached Reason                       : Unknown
+      Reason                                : Unknown
+      Negotiated Logical Link Rate          : PHY enabled - unknown link rate
+      Attached Initiator Port               : SSP - 0  STP - 0  SMP - 0
+      Attached Target Port                  : SSP - 0  STP - 0  SMP - 0
+      SAS Address                           : 0x5002538b1184df63
+      Attached SAS Address                  : 0x0000000000000000
+      Attached PHY Identifier               : 0
+      Invalid DWORD Count                   : 0
+      Running Disparity Error Count         : 0
+      Loss of DWORD Synchronization Count   : 0
+      PHY Reset Problem Count               : 0
+
+
+Command completed successfully.

@@ -1,0 +1,106 @@
+Controllers found: 1
+
+Controller PHY Error Log:
+=========================
+
+Controller ID    : 1
+Controller Model : MSCC Adaptec HBA 1100-16i
+
+   PHY Identifier                             : 0
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 1
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 2
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 3
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 4
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 5
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 6
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 7
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 8
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 9
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 10
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 11
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 12
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 13
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 14
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+   PHY Identifier                             : 15
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+
+Command completed successfully.

@@ -1,0 +1,34 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Connector information
+----------------------------------------------------------------------
+Connector #0                                
+   Connector Name                           : CN0
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53280
+
+
+Connector #1                                
+   Connector Name                           : CN1
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53284
+
+
+Connector #2                                
+   Connector Name                           : CN2
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53288
+
+
+Connector #3                                
+   Connector Name                           : CN3
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B5328C
+
+
+
+Command completed successfully.

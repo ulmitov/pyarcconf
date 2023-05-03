@@ -1,0 +1,79 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sda
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 1(Connector 0:CN0)
+         Vendor                             : ATA     
+         Model                              : SAMSUNG MZ7KH240
+         Firmware                           : HXM7904Q
+         Serial number                      : S27LMA1234567
+         World-wide name                    : 30020D131234567
+         Reserved Size                      : 32768 KB
+         Total Size                         : 228936 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 21 deg C
+         Maximum Temperature                : 46 deg C
+         Threshold Temperature              : 60 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : CBD41F8DD6CB012345670F0404384
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+
+
+Command completed successfully.

@@ -1,0 +1,653 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : HBA
+   Channel description                      : SCSI
+   Controller Model                         : MSCC Adaptec HBA 1100-16i
+   Controller Serial Number                 : 8B247650842
+   Controller World Wide Name               : 60000A3704B51487
+   Physical Slot                            : 8
+   Temperature                              : 35 C/ 95 F (Normal)
+   Host bus type                            : PCIe 3.0
+   Host bus speed                           : 7880 MBps
+   Host bus link width                      : 8 bit(s)/link(s)
+   PCI Address (Bus:Device:Function)        : 0:d9:0:0
+   Number of Ports                          : 4
+   Internal Port Count                      : 4
+   External Port Count                      : 0
+   NCQ status                               : Enabled
+   Post Prompt Timeout                      : 0 seconds
+   Boot Controller                          : False
+   Primary Boot Volume                      : None
+   Secondary Boot Volume                    : None
+   Driver Name                              : smartpqi
+   Manufacturing Part Number                : Not Applicable
+   Manufacturing Spare Part Number          : Not Applicable
+   Manufacturing Wellness Log               : Not Applicable
+   NVRAM Checksum Status                    : Passed
+   Sanitize Lock Setting                    : None
+   --------------------------------------------------------
+   Power Settings
+   --------------------------------------------------------
+   Power Consumption                        : Not Available
+   Current Power Mode                       : Maximum Performance
+   Pending Power Mode                       : Not Applicable
+   Survival Mode                            : Enabled
+   --------------------------------------------------------
+   I2C Settings
+   --------------------------------------------------------
+   I2C Address                              : 0xDE
+   I2C Clock Speed                          : 400 KHZ
+   I2C Clock Stretching                     : Enabled
+   --------------------------------------------------------
+   Cache Properties
+   --------------------------------------------------------
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   Firmware                                 : 1.32[0]
+   Driver                                   : Linux 1.2.10-025
+   Hardware Revision                        : A
+   --------------------------------------------------------
+   Temperature Sensors Information
+   --------------------------------------------------------
+   Sensor ID                                : 0
+   Current Value                            : 25 deg C
+   Max Value Since Powered On               : 27 deg C
+   Location                                 : Inlet Ambient
+
+   Sensor ID                                : 1
+   Current Value                            : 35 deg C
+   Max Value Since Powered On               : 39 deg C
+   Location                                 : ASIC
+
+   --------------------------------------------------------
+   Connector information
+                   
+   --------------------------------------------------------
+   Connector #0                             
+      Connector Name                        : CN0
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53280
+
+
+   Connector #1                             
+      Connector Name                        : CN1
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53284
+
+
+   Connector #2                             
+      Connector Name                        : CN2
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53288
+
+
+   Connector #3                             
+      Connector Name                        : CN3
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B5328C
+
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+   Channel #0:
+      Device #1
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sda
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 1(Connector 0:CN0)
+         Vendor                             : ATA     
+         Model                              : SAMSUNG MZ7KH240
+         Firmware                           : HXM7904Q
+         Serial number                      : S46LNA0RA20685
+         World-wide name                    : 30000D1704B33333
+         Reserved Size                      : 32768 KB
+         Total Size                         : 228936 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 21 deg C
+         Maximum Temperature                : 46 deg C
+         Threshold Temperature              : 60 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : CBD51F8DD6CB0902D9476BC0F0404386
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #2
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sdb
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 2(Connector 0:CN0)
+         Vendor                             : ATA     
+         Model                              : INTEL SSDSC2KB01
+         Firmware                           : XCV10132
+         Serial number                      : PHYF129104444P9DGN
+         World-wide name                    : 30000D1204B53333
+         Reserved Size                      : 32768 KB
+         Total Size                         : 1831420 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 17 deg C
+         Maximum Temperature                : 53 deg C
+         Threshold Temperature              : 73 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : FCDDF365C3BF707E3F91E7647383C32A
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #3
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sdc
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 3(Connector 0:CN0)
+         Vendor                             : ATA     
+         Model                              : SAMSUNG MZ7L31T9
+         Firmware                           : JXTE004Q
+         Serial number                      : S6ENNE0RB55555
+         World-wide name                    : 30000D1704B55555
+         Reserved Size                      : 32768 KB
+         Total Size                         : 1831420 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 25 deg C
+         Maximum Temperature                : 40 deg C
+         Threshold Temperature              : 70 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : BC1BCF226E4D23333333A21311641ED
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 1033
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #4
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sdd
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,4(4:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 4(Connector 1:CN1)
+         Vendor                             : SAMSUNG 
+         Model                              : MZILT7T6HALA/007
+         Firmware                           : GXA0
+         Serial number                      : S5DD1234567
+         World-wide name                    : 5002538B1234567
+         Reserved Size                      : 32768 KB
+         Total Size                         : 7325650 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         Boot Type                          : None
+         Current Temperature                : 23 deg C
+         Maximum Temperature                : 24 deg C
+         Threshold Temperature              : 74 deg C
+         PHY Count                          : 2
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : False
+         Sanitize Lock Anti-Freeze Support  : False
+         Sanitize Lock Setting              : Unknown
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : 5002538B1184DF60619300081234567
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 12 Gbps 
+            Negotiated Logical Link Rate    : 12 Gbps 
+            Maximum Link Rate               : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate   : unknown 
+            Negotiated Logical Link Rate    : unknown 
+            Maximum Link Rate               : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #5
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sde
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,5(5:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 5(Connector 1:CN1)
+         Vendor                             : ATA     
+         Model                              : Micron_5300_MTFD
+         Firmware                           :  D3MU001
+         Serial number                      : 220431234567
+         World-wide name                    : 30000D1701234567
+         Reserved Size                      : 32768 KB
+         Total Size                         : 915715 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 19 deg C
+         Maximum Temperature                : 31 deg C
+         Threshold Temperature              : 70 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : FC7AFDCA1244AB63353FD3611234567
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #7
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Disk Name                          : /dev/sdf
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,7(7:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 7(Connector 1:CN1)
+         Vendor                             : ATA     
+         Model                              : SAMSUNG MZ7LH480
+         Firmware                           : HXT7904Q
+         Serial number                      : S45PNC01234567
+         World-wide name                    : 30000D171234567
+         Reserved Size                      : 32768 KB
+         Total Size                         : 457862 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 22 deg C
+         Maximum Temperature                : 44 deg C
+         Threshold Temperature              : 70 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : 06694CC46B42B1234567B952CFA90A
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 522
+         Sectors Written                    : 0
+         Service Hours                      : 25
+
+      Device #15
+         Device is a Hard drive
+         State                              : Raw (Pass Through)
+         Drive has stale RIS data           : False
+         Block Size                         : 512 Bytes
+         Physical Block Size                : 4K Bytes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,15(15:0)
+         Reported Location                  : Enclosure Direct Attached, Slot 15(Connector 3:CN3)
+         Vendor                             : ATA     
+         Model                              : Micron_5300_MTFD
+         Firmware                           :  D3MU001
+         Serial number                      : 2205341234567
+         World-wide name                    : 30012345673293
+         Reserved Size                      : 32768 KB
+         Total Size                         : 457862 MB
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         SSD                                : Yes
+         NCQ supported                      : Supported
+         NCQ status                         : Enabled
+         Boot Type                          : None
+         Current Temperature                : 23 deg C
+         Maximum Temperature                : 36 deg C
+         Threshold Temperature              : 70 deg C
+         PHY Count                          : 1
+         Drive Configuration Type           : HBA
+         Mount Point(s)                     : Not Mounted
+         Drive Exposed to OS                : True
+         Sanitize Erase Support             : True
+         Sanitize Lock Freeze Support       : True
+         Sanitize Lock Anti-Freeze Support  : True
+         Sanitize Lock Setting              : None
+         Usage Remaining                    : 100 percent
+         Estimated Life Remaining           : Not Applicable
+         SSD Smart Trip Wearout             : False
+         56 Day Warning Present             : False
+         Drive Unique ID                    : 8C7DFEDB3BE123456759918A1302305
+         Last Failure Reason                : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate   : 6 Gbps 
+            Negotiated Logical Link Rate    : 6 Gbps 
+            Maximum Link Rate               : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                 
+      ----------------------------------------------------------------
+         Aborted Commands                   : 0
+         Bad Target Errors                  : 0
+         Ecc Recovered Read Errors          : 0
+         Failed Read Recovers               : 0
+         Failed Write Recovers              : 0
+         Format Errors                      : 0
+         Hardware Errors                    : 0
+         Hard Read Errors                   : 0
+         Hard Write Errors                  : 0
+         Hot Plug Count                     : 0
+         Media Failures                     : 0
+         Not Ready Errors                   : 0
+         Other Time Out Errors              : 0
+         Predictive Failures                : 0
+         Retry Recovered Read Errors        : 0
+         Retry Recovered Write Errors       : 0
+         Scsi Bus Faults                    : 0
+         Sectors Reads                      : 0
+         Sectors Written                    : 0
+         Service Hours                      : 13
+
+   Channel #2:
+      Device #3
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)       : 2,3(3:0)
+         Enclosure ID                       : 0
+         Enclosure Logical Identifier       : 50000D1704B53280
+         Type                               : SES2
+         Vendor                             : MSCC    
+         Model                              : Virtual SGPIO
+         Firmware                           : 1.32
+         Status of Enclosure Services Device
+            Speaker status                  : Not Available
+
+----------------------------------------------------------------------
+Connector information
+----------------------------------------------------------------------
+Connector #0                                
+   Connector Name                           : CN0
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53280
+
+
+Connector #1                                
+   Connector Name                           : CN1
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53284
+
+
+Connector #2                                
+   Connector Name                           : CN2
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B53288
+
+
+Connector #3                                
+   Connector Name                           : CN3
+   Functional Mode                          : HBA
+   Connector Location                       : Internal
+   SAS Address                              : 50000D1704B5328C
+
+
+
+Command completed successfully.

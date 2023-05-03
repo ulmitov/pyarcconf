@@ -1,16 +1,17 @@
 """Pyarcconf submodule, which provides a logical drive representing class."""
 
-import subprocess
-from pyarcconf import parser
+from . import parser
+from .arcconf import Arcconf
+
 
 class LogicalDrive():
     """Object which represents a logical drive."""
 
-    def __init__(self, util_path, adapter_id, id_):
+    def __init__(self, adapter_id, id_, arcconf=None):
         """Initialize a new LogicalDrive object."""
-        self.path = util_path
-        self.adapter_id = adapter_id
-        self.id_ = id_
+        self.arcconf = arcconf or Arcconf()
+        self.adapter_id = str(adapter_id)
+        self.id_ = str(id_)
         self.logical_drive_name = None
         self.raid_level = None
         self.status_of_logical_drive = None
@@ -36,20 +37,27 @@ class LogicalDrive():
             RuntimeError: if command fails
         """
         if cmd == 'GETCONFIG':
-            base_cmd = [self.path, cmd, self.adapter_id]
+            base_cmd = [cmd, self.adapter_id]
         else:
-            base_cmd = [self.path, cmd, self.adapter_id, 'LOGICALDRIVE', self.id_]
-        proc = subprocess.Popen(base_cmd + args,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, _ = proc.communicate()
-        if isinstance(out, bytes):
-            out = out.decode().strip()
-        return out
+            base_cmd = [cmd, self.adapter_id, 'LOGICALDRIVE', self.id_]
+        return self.arcconf._execute(base_cmd + args)
 
     def __str__(self):
         """Build a string formatted object representation."""
         return '{}|{} {} {} {}'.format(self.id_, self.logical_drive_name, self.raid_level,
                                        self.status_of_logical_drive, self.size)
+
+    def init(self, config=''):
+        config = config or self._get_config().split('\n')
+        for line in config:
+            if parser.SEPARATOR_ATTRIBUTE in line:
+                key, value = parser.convert_attribute(line)
+                self.__setattr__(key, value)
+
+    def _get_config(self):
+        result = self._execute('GETCONFIG', ['LD', self.channel, self.device])[0]
+        result = parser.cut_lines(result, 4)
+        return result
 
     def set_name(self, name):
         """Set the name for the logical drive.
@@ -59,10 +67,10 @@ class LogicalDrive():
         Returns:
             bool: command result
         """
-        result = self._execute('SETNAME', [name])
-        if bool(result.endswith('Command completed successfully.')):
-            result = _execute('GETCONFIG', ['LD', self.id_])
-            result = parser.cut_lines(result, 4, 4)
+        result, rc = self._execute('SETNAME', [name])
+        if not rc:
+            result = self._execute('GETCONFIG', ['LD', self.id_])
+            result = parser.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Logical Device Name'):
                     self.logical_device_name = line.split(':')[1].strip().lower()
@@ -77,10 +85,10 @@ class LogicalDrive():
         Returns:
             bool: command result
         """
-        result = self._execute('SETSTATE', [state])
-        if bool(result.endswith('Command completed successfully.')):
-            result = _execute('GETCONFIG', ['LD', self.id_])
-            result = parser.cut_lines(result, 4, 4)
+        result, rc = self._execute('SETSTATE', [state])
+        if not rc:
+            result = self._execute('GETCONFIG', ['LD', self.id_])
+            result = parser.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Status'):
                     self.status_of_logical_device = line.split(':')[1].strip().lower()
@@ -89,19 +97,26 @@ class LogicalDrive():
 
     def set_cache(self, mode):
         """Set the cache for the logical drive.
+        ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
+        ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
+        ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
+        ARCCONF SETCACHE <Controller#> WAITFORCACHEROOM <enable | disable>
+        ARCCONF SETCACHE <Controller#> NOBATTERYWRITECACHE <enable | disable>
+        ARCCONF SETCACHE <Controller#> WRITECACHEBYPASSTHRESHOLD <threshold size>
+        ARCCONF SETCACHE <Controller#> RECOVERCACHEMODULE
 
         Args:
             mode (str): new mode
         Returns:
             bool: command result
         """
-        result = self._execute('SETCACHE', [mode])
-        if bool(result.endswith('Command completed successfully.')):
-            result = _execute('GETCONFIG', ['LD', self.id_])
-            result = parser.cut_lines(result, 4, 4)
+        result, rc = self._execute('SETCACHE', [mode])
+        if not rc:
+            result = self._execute('GETCONFIG', ['LD', self.id_])
+            result = parser.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.split(':')[0].strip() in ['Read-cache', 'Write-cache']:
-                    key, value = convert_attribute(*line.split(':'))
+                    key, value = parser.convert_attribute(line)
                     self.__setattr__(key, value)
             return True
         return False

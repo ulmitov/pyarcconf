@@ -1,0 +1,100 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : HBA
+   Channel description                      : SCSI
+   Controller Model                         : MSCC Adaptec HBA 1100-16i
+   Controller Serial Number                 : 8B247650842
+   Controller World Wide Name               : 60000A3704B51487
+   Physical Slot                            : 8
+   Temperature                              : 35 C/ 95 F (Normal)
+   Host bus type                            : PCIe 3.0
+   Host bus speed                           : 7880 MBps
+   Host bus link width                      : 8 bit(s)/link(s)
+   PCI Address (Bus:Device:Function)        : 0:d9:0:0
+   Number of Ports                          : 4
+   Internal Port Count                      : 4
+   External Port Count                      : 0
+   NCQ status                               : Enabled
+   Post Prompt Timeout                      : 0 seconds
+   Boot Controller                          : False
+   Primary Boot Volume                      : None
+   Secondary Boot Volume                    : None
+   Driver Name                              : smartpqi
+   Manufacturing Part Number                : Not Applicable
+   Manufacturing Spare Part Number          : Not Applicable
+   Manufacturing Wellness Log               : Not Applicable
+   NVRAM Checksum Status                    : Passed
+   Sanitize Lock Setting                    : None
+   --------------------------------------------------------
+   Power Settings
+   --------------------------------------------------------
+   Power Consumption                        : Not Available
+   Current Power Mode                       : Maximum Performance
+   Pending Power Mode                       : Not Applicable
+   Survival Mode                            : Enabled
+   --------------------------------------------------------
+   I2C Settings
+   --------------------------------------------------------
+   I2C Address                              : 0xDE
+   I2C Clock Speed                          : 400 KHZ
+   I2C Clock Stretching                     : Enabled
+   --------------------------------------------------------
+   Cache Properties
+   --------------------------------------------------------
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   Firmware                                 : 1.32[0]
+   Driver                                   : Linux 1.2.10-025
+   Hardware Revision                        : A
+   --------------------------------------------------------
+   Temperature Sensors Information
+   --------------------------------------------------------
+   Sensor ID                                : 0
+   Current Value                            : 25 deg C
+   Max Value Since Powered On               : 27 deg C
+   Location                                 : Inlet Ambient
+
+   Sensor ID                                : 1
+   Current Value                            : 35 deg C
+   Max Value Since Powered On               : 39 deg C
+   Location                                 : ASIC
+
+   --------------------------------------------------------
+   Connector information
+                   
+   --------------------------------------------------------
+   Connector #0                             
+      Connector Name                        : CN0
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53280
+
+
+   Connector #1                             
+      Connector Name                        : CN1
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53284
+
+
+   Connector #2                             
+      Connector Name                        : CN2
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B53288
+
+
+   Connector #3                             
+      Connector Name                        : CN3
+      Functional Mode                       : HBA
+      Connector Location                    : Internal
+      SAS Address                           : 50000D1704B5328C
+
+
+
+
+Command completed successfully.

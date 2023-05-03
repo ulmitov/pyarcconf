@@ -1,0 +1,9 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller ID             : Status, Slot, Mode, Name, SerialNumber, WWN
+----------------------------------------------------------------------
+   Controller 1:             : Optimal, Slot 8, HBA, MSCC Adaptec HBA 1100-16i, 8A246320899, 50000D1704B53280
+
+Command completed successfully.

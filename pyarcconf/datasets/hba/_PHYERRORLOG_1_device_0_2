@@ -1,0 +1,28 @@
+Controllers found: 1
+
+Physical Device Information:
+----------------------------
+
+Channel            : 0
+Device             : 2
+Vendor             : ATA     
+Model              : INTEL SSDSC2KB01
+Serial number      : PHYF12911234567
+Device Type        : SATA
+
+SATA Phy Event Counters:
+------------------------
+
+ID      Size     Value  Description
+0x0001  4            0  Command failed due to ICRC error
+0x0002  4            0  R_ERR response for data FIS
+0x0003  4            0  R_ERR response for device-to-host data FIS
+0x0004  4            0  R_ERR response for host-to-device data FIS
+0x0005  4            0  R_ERR response for non-data FIS
+0x0006  4            0  R_ERR response for device-to-host non-data FIS
+0x0007  4            0  R_ERR response for host-to-device non-data FIS
+0x000a  4            6  Register device to host FISes sent due to a COMRESET
+0x000b  4            0  CRC errors within a host-to-device FIS
+0x000d  4            0  Non-CRC errors within a host-to-device FIS
+
+Command completed successfully.
