@@ -1,0 +1,53 @@
+Controllers found: 1
+
+Physical Device Information:
+----------------------------
+
+Channel            : 0
+Device             : 8
+Vendor             : VENDOR_XXX
+Model              : HUH721212AL4204
+Serial number      : 1234567
+Device Type        : SAS
+
+Protocol Specific port log page for SAS SSP:
+--------------------------------------------
+
+Relative Target Port ID                       : 1
+   Generation Code                            : 1
+   Number of PHYs                             : 1
+   PHY Identifier                             : 0
+      Attached Device Type                    : Expander device
+      Attached Reason                         : Loss of DWORD synchronization
+      Reason                                  : Unknown
+      Negotiated Logical Link Rate            : PHY enabled - 12 Gbps
+      Attached Initiator Port                 : SSP - 0  STP - 0  SMP - 1
+      Attached Target Port                    : SSP - 0  STP - 0  SMP - 1
+      SAS Address                             : 0x5000cca25335ecbd
+      Attached SAS Address                    : 0x500e004a00e2003f
+      Attached PHY Identifier                 : 0
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+Relative Target Port ID                       : 2
+   Generation Code                            : 1
+   Number of PHYs                             : 1
+   PHY Identifier                             : 1
+      Attached Device Type                    : No device attached
+      Attached Reason                         : Unknown
+      Reason                                  : Power ON
+      Negotiated Logical Link Rate            : PHY enabled - unknown link rate
+      Attached Initiator Port                 : SSP - 0  STP - 0  SMP - 0
+      Attached Target Port                    : SSP - 0  STP - 0  SMP - 0
+      SAS Address                             : 0x5000cca25335ecbe
+      Attached SAS Address                    : 0x0000000000000000
+      Attached PHY Identifier                 : 0
+      Invalid DWORD Count                     : 0
+      Running Disparity Error Count           : 0
+      Loss of DWORD Synchronization Count     : 0
+      PHY Reset Problem Count                 : 0
+
+
+Command completed successfully.

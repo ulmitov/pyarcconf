@@ -1,0 +1,645 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+   Channel #0:
+      Device #8
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdb
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,8(8:0)
+         Reported Location                    : Enclosure 1, Slot 0(Connector 0:CN0)
+         Vendor                               : VENDOR_XXX
+         Model                                : HUH721212AL4204
+         Firmware                             : C3F0
+         Serial number                        : 8D2324GY343N53H
+         World-wide name                      : 5000C234656335ECBD
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11444192 MB
+         Total Size                           : 11444224 MB
+         Write Cache                          : Enabled (write-back)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 29 deg C
+         Maximum Temperature                  : 29 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000C23235245085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1333913
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #9
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdc
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,9(9:0)
+         Reported Location                    : Enclosure 1, Slot 1(Connector 0:CN0)
+         Vendor                               : VENDOR_XXX
+         Model                                : HUH721212AL4204
+         Firmware                             : C3F0
+         Serial number                        : 8HHW45345213H
+         World-wide name                      : 50453462CA2706AE6A1
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11364320 MB
+         Total Size                           : 11364352 MB
+         Write Cache                          : Disabled (write-through)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 30 deg C
+         Maximum Temperature                  : 30 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 500346565656577300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1273369
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #10
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdd
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,10(10:0)
+         Reported Location                    : Enclosure 1, Slot 2(Connector 0:CN0)
+         Vendor                               : SEAGATE
+         Model                                : ST8000NM001A
+         Firmware                             : E003
+         Serial number                        : WSD2E235650E156QWM
+         World-wide name                      : 5000C500D345435721
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 7630853 MB
+         Total Size                           : 7630885 MB
+         Write Cache                          : Disabled (write-through)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 29 deg C
+         Maximum Temperature                  : 29 deg C
+         Threshold Temperature                : 60 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000C500DE3617346564555000C500
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 10435241
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #11
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sde
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,11(11:0)
+         Reported Location                    : Enclosure 1, Slot 3(Connector 0:CN0)
+         Vendor                               : SEAGATE
+         Model                                : ST16000NM004J
+         Firmware                             : E001
+         Serial number                        : ZR7009E45253463020QQZ
+         World-wide name                      : 50002322459D84ED
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 15153120 MB
+         Total Size                           : 15153152 MB
+         Write Cache                          : Disabled (write-through)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 29 deg C
+         Maximum Temperature                  : 29 deg C
+         Threshold Temperature                : 60 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 500023245344EF619300085000C500
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 6
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1387993
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #12
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdf
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,12(12:0)
+         Reported Location                    : Enclosure 1, Slot 4(Connector 0:CN0)
+         Vendor                               : HGST
+         Model                                : HUH721212AL4204
+         Firmware                             : C3D0
+         Serial number                        : 8D45435324D
+         World-wide name                      : 5003465656530D6289
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11444192 MB
+         Total Size                           : 11444224 MB
+         Write Cache                          : Enabled (write-back)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 30 deg C
+         Maximum Temperature                  : 31 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CC34534534619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1226585
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #13
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdg
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,13(13:0)
+         Reported Location                    : Enclosure 1, Slot 5(Connector 0:CN0)
+         Vendor                               : HGST
+         Model                                : HUH721212AL4204
+         Firmware                             : C3D0
+         Serial number                        : 8D322G74564564D
+         World-wide name                      : 5000234567825381B01
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11444192 MB
+         Total Size                           : 11444224 MB
+         Write Cache                          : Enabled (write-back)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 29 deg C
+         Maximum Temperature                  : 30 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000232423419300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1295449
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #14
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdh
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,14(14:0)
+         Reported Location                    : Enclosure 1, Slot 6(Connector 0:CN0)
+         Vendor                               : VENDOR_XXX
+         Model                                : HUH721212AL4204
+         Firmware                             : C3F0
+         Serial number                        : 8DGXZK8H
+         World-wide name                      : 5000CCA25334B465
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11364320 MB
+         Total Size                           : 11364352 MB
+         Write Cache                          : Disabled (write-through)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 30 deg C
+         Maximum Temperature                  : 30 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA25334B464619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1205572
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+      Device #15
+         Device is a Hard drive
+         State                                : Ready
+         Drive has stale RIS data             : False
+         Disk Name                            : /dev/sdi
+         Block Size                           : 4K Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,15(15:0)
+         Reported Location                    : Enclosure 1, Slot 7(Connector 0:CN0)
+         Vendor                               : HGST
+         Model                                : HUH721212AL4204
+         Firmware                             : C3D0
+         Serial number                        : 467622345
+         World-wide name                      : 5000CCA254563563A7D
+         Reserved Size                        : 32768 KB
+         Used Size                            : 0 MB
+         Unused Size                          : 11444192 MB
+         Total Size                           : 11444224 MB
+         Write Cache                          : Enabled (write-back)
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 30 deg C
+         Maximum Temperature                  : 30 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Unassigned
+         Mount Point(s)                       : Not Mounted
+         Drive Exposed to OS                  : True
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2530D345657788885000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 6
+         Sectors Reads                        : 1221977
+         Sectors Written                      : 0
+         Service Hours                        : 1
+
+   Channel #2:
+      Device #0
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)         : 2,0(0:0)
+         Reported Location                    : Connector 0:CN0, Enclosure 1
+         Enclosure ID                         : 1
+         Enclosure Logical Identifier         : 500E004A00E2003E
+         Expander ID                          : 0
+         Expander SAS Address                 : 500E004A00E2003F
+         SEP device ID                        : 377
+         Type                                 : SES2
+         Vendor                               : VENDOR_XXX
+         Model                                : PRODUCT_XXX
+         Firmware                             : 
+         Status of Enclosure Services Device
+            Temperature Sensor Status 1       : 35 C/ 95 F (Normal)
+            Speaker status                    : Not Available
+   Channel #2:
+      Device #1
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)         : 2,1(1:0)
+         Enclosure ID                         : 0
+         Enclosure Logical Identifier         : 50000D1E012F1A88
+         Type                                 : SES2
+         Vendor                               : Adaptec 
+         Model                                : Virtual SGPIO
+         Firmware                             : 0102
+         Status of Enclosure Services Device
+            Speaker status                    : Not Available
+
+
+Command completed successfully.

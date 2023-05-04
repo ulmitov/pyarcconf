@@ -1,0 +1,155 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                          : Optimal
+   Controller Mode                            : Mixed
+   Channel description                        : SCSI
+   Controller Model                           : Adaptec SmartRAID 3204-8i
+   Vendor ID                                  : 0x9005
+   Device ID                                  : 0x028F
+   Subsystem Vendor ID                        : 0x9005
+   Subsystem Device ID                        : 0x14A1
+   Controller Serial Number                   : 1A5535F3324002BA
+   Controller World Wide Name                 : 50002350D1E015523F1A80
+   Physical Slot                              : 10
+   Temperature                                : 46 C/ 114 F (Normal)
+   Negotiated PCIe Data Rate                  : PCIe 3.0 x8(7880 MB/s)
+   PCI Address (Domain:Bus:Device:Function)   : 0:60:0:0
+   Number of Ports                            : 1
+   Internal Port Count                        : 1
+   External Port Count                        : 0
+   Defunct disk drive count                   : 0
+   NCQ status                                 : Enabled
+   Queue Depth                                : Not Applicable
+   Monitor and Performance Delay              : Not Applicable
+   Elevator Sort                              : Not Applicable
+   Degraded Mode Performance Optimization     : Not Applicable
+   Latency                                    : Not Applicable
+   Post Prompt Timeout                        : 0 seconds
+   Boot Controller                            : False
+   Primary Boot Volume                        : None
+   Secondary Boot Volume                      : None
+   Driver Name                                : smartpqi
+   Driver Supports SSD I/O Bypass             : Yes
+   NVMe Supported                             : Yes
+   NVMe Configuration Supported               : Yes
+   Manufacturing Part Number                  : Not Applicable
+   Manufacturing Spare Part Number            : Not Applicable
+   Manufacturing Wellness Log                 : Not Applicable
+   Manufacturing SKU Number                   : Not Applicable
+   Manufacturing Model                        : Not Applicable
+   NVRAM Checksum Status                      : Passed
+   Sanitize Lock Setting                      : None
+   Expander Minimum Scan Duration             : 0 seconds
+   Expander Scan Time-out                     : 350 seconds
+   Reboot Required Reasons                    : Not Available
+   -------------------------------------------------------------------
+   Power Settings                             
+   -------------------------------------------------------------------
+   Power Consumption                          : 0 milliWatts 
+   Current Power Mode                         : Maximum Performance
+   Pending Power Mode                         : Not Applicable
+   Survival Mode                              : Enabled
+   -------------------------------------------------------------------
+   Cache Properties                           
+   -------------------------------------------------------------------
+   Cache Status                               : Not Configured
+   Cache Serial Number                        : Not Applicable
+   Cache memory                               : 3644 MB
+   Read Cache Percentage                      : Not Applicable
+   Write Cache Percentage                     : Not Applicable
+   No-Battery Write Cache                     : Disabled
+   Wait for Cache Room                        : Disabled
+   Write Cache Bypass Threshold Size          : 1040 KB
+   -------------------------------------------------------------------
+   Physical Drive Write Cache Policy Information
+   -------------------------------------------------------------------
+   Configured Drives                          : Default
+   Unconfigured Drives                        : Default
+   HBA Drives                                 : Default
+   -------------------------------------------------------------------
+   RAID Properties                            
+   -------------------------------------------------------------------
+   Logical devices/Failed/Degraded            : 0/0/0
+   Spare Activation Mode                      : Failure
+   Background consistency check               : Not Applicable
+   Consistency Check Delay                    : Not Applicable
+   Parallel Consistency Check Supported       : Not Applicable
+   Parallel Consistency Check Count           : Not Applicable
+   Inconsistency Repair Policy                : Not Applicable
+   Consistency Check Inconsistency Notify     : Not Applicable
+   Rebuild Priority                           : Not Applicable
+   Expand Priority                            : Medium
+   -------------------------------------------------------------------
+   Controller Version Information             
+   -------------------------------------------------------------------
+   Firmware                                   : 03.01.02.042
+   Driver                                     : Linux 1.2.10-025
+   Hardware Revision                          : B
+   Hardware Minor Revision                    : Not Available
+   SEEPROM Version                            : 0
+   -------------------------------------------------------------------
+   Temperature Sensors Information            
+   -------------------------------------------------------------------
+   Sensor ID                                  : 0
+   Current Value                              : 29 deg C
+   Max Value Since Powered On                 : 29 deg C
+   Location                                   : Inlet Ambient
+
+   Sensor ID                                  : 1
+   Current Value                              : 46 deg C
+   Max Value Since Powered On                 : 46 deg C
+   Location                                   : ASIC
+
+   Sensor ID                                  : 2
+   Current Value                              : 30 deg C
+   Max Value Since Powered On                 : 31 deg C
+   Location                                   : Top
+
+   Sensor ID                                  : 3
+   Current Value                              : 38 deg C
+   Max Value Since Powered On                 : 39 deg C
+   Location                                   : Bottom
+
+   -------------------------------------------------------------------
+   Out Of Band Interface Settings             
+   -------------------------------------------------------------------
+   OOB Interface                              : MCTP
+   Pending OOB Interface                      : MCTP
+   I2C Address                                : 0xDE
+   Pending I2C Address                        : 0xDE
+   -------------------------------------------------------------------
+   PBSI                                       
+   -------------------------------------------------------------------
+   I2C Clock Speed                            : Not Applicable
+   I2C Clock Stretching                       : Not Applicable
+   Pending I2C Clock Speed                    : Not Applicable
+   Pending I2C Clock Stretching               : Not Applicable
+   -------------------------------------------------------------------
+   MCTP                                       
+   -------------------------------------------------------------------
+   SMBus Device Type                          : Fixed
+   SMBus Channel                              : Disabled
+   Static EIDs Use On Initialization          : Disabled
+   VDM Notification                           : Enabled
+   Pending SMBus Device Type                  : Fixed
+   Pending SMBus Channel                      : Disabled
+   Pending Static EIDs Use On Initialization  : Disabled
+   Pending VDM Notification                   : Enabled
+   -------------------------------------------------------------------
+   Connector information                      
+   -------------------------------------------------------------------
+   Connector #0                               
+      Connector name                          : CN0
+      Connection Number                       : 0
+      Functional Mode                         : Mixed
+      Connector Location                      : Internal
+      SAS Address                             : 50000D1E012F1A80
+      Current Discovery Protocol              : AutoDetect
+      Pending Discovery Protocol              : Not Applicable
+
+
+
+
+Command completed successfully.

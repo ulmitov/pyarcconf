@@ -15,7 +15,6 @@ class PhysicalDrive():
         self.adapter_id = str(adapter_id)
         self.channel = str(channel).strip()
         self.device = str(device).strip()
-        self.model = None
 
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
@@ -35,8 +34,15 @@ class PhysicalDrive():
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return '<Channel#{},Device#{}| {} {} {}>'.format(
-            self.channel, self.device, self.model, self.serial, self.name
+        return '<Channel #{},Device #{}| {}>'.format(
+            self.channel,
+            self.device,
+            ' '.join([
+                getattr(self, 'vendor', ''),
+                getattr(self, 'model', ''),
+                getattr(self, 'serial', ''),
+                getattr(self, 'name', '')
+            ])
         )
     
     def update(self, config=''):
@@ -122,10 +128,13 @@ class PhysicalDrive():
 
     @property
     def phyerrorcounters(self):
-        result = self._execute('PHYERRORLOG')
+        result, rc = self._execute('PHYERRORLOG')
+        if rc == 2:
+            return {}
         sata = 'SATA' in result
         result = parser.cut_lines(result, 16 if sata else 15)
         data = {}
+        #TODO: add sata logic
         if not sata:
             for phy in result.split('\n\n'):
                 if 'No device attached' in phy:

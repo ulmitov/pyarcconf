@@ -1,0 +1,16 @@
+Controllers found: 1
+
+Expander List for Controller 1:
+
+Expander# 1
+   Expander ID                    : 0
+   Reported Channel,Device        : 2,0
+   Reported Location              : Connector 0, Enclosure 1
+   Vendor ID                      : VENDOR_XXX
+   Product Revision Level         : 
+   Expander SAS Address           : 500E004A00E2003F
+   Negotiated Link Rate           : 12 Gbps
+   Maximum Link Rate              : 12 Gbps
+
+
+Command completed successfully.

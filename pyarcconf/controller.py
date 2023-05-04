@@ -25,6 +25,7 @@ class Controller():
         self.enclosures = []
         self.tasks = []
 
+        #TODO: those really needed?
         self.raid_properties = {}
         self.versions = {}
         self.battery = {}
@@ -41,12 +42,6 @@ class Controller():
             self.id, self.mode, self.model, self.channel_description
         )
 
-    def initialize(self):
-        self.update()
-        self.get_pds()
-        self.get_lds()
-        self.get_tasks()
-
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
 
@@ -59,6 +54,12 @@ class Controller():
         """
         return self.arcconf._execute([cmd, self.id] + args)[0]
 
+    def initialize(self):
+        self.update()
+        self.get_pds()
+        self.get_lds()
+        self.get_tasks()
+
     @property
     def drives(self):
         if not self._drives:
@@ -67,10 +68,52 @@ class Controller():
     
     @property
     def expanders(self):
-        """TODO: return expanders objects"""
+        """Get expander objects"""
         result = self._execute('EXPANDERLIST')
         if 'No expanders connected' in result:
             return []
+        expanders = []
+        _ = self.drives
+        for e in self.enclosures:
+            if 'Expander' in e.name:
+                expanders.append(e)
+        return expanders
+    
+    @property
+    def hba(self):
+        """
+        Return:
+            bool: True if card is HBA
+        """
+        return getattr(self, 'mode', '').upper() == 'HBA'
+
+    @property
+    def phyerrorcounters(self):
+        result = self._execute('PHYERRORLOG')
+        result = parser.cut_lines(result, 8)
+        data = {}
+        for phy in result.split('\n\n'):
+            phy = phy.split('\n')
+            _, phyid = parser.convert_property(phy[0])
+            data[phyid] = {}
+            for attr in phy[1:]:
+                key, value = parser.convert_property(attr)
+                data[phyid][key] = value
+        return data
+
+    @property
+    def connectors(self):
+        data = {}
+        result = self._execute('GETCONFIG', ['CN'])
+        result = parser.cut_lines(result, 4)
+        for part in result.split('\n\n'):
+            lines = part.split('\n')
+            cnid = lines[0].split('#')[-1].strip()
+            data[cnid] = {}
+            for line in lines[1:]:
+                key, value = parser.convert_property(line)
+                data[cnid][key] = value
+        return data
 
     def update(self):
         """Parse adapter info"""
@@ -98,31 +141,31 @@ class Controller():
                 self.facts[key] = value
                 self.facts[key.replace('Controller ', '')] = value
 
+        for idx in range(1, len(section), 2):
+            if not section[idx].replace(' ', ''):
+                print('NO SECTION') # TODO: remove it later
+            attr = parser.convert_key_dict(section[idx])
+            # pystorcli compliance
+            attr = attr.replace('Information', '')
+            attr = attr.replace('Controller', '').strip()
+            if 'temperature sensors' in attr.lower():
+                props = {}
+                for sub_section in section[idx + 1].split('\n\n'):
+                    sub_props = parser.get_properties(sub_section)
+                    if sub_props:
+                        props[sub_props['Sensor ID']] = sub_props
+            else:
+                props = parser.get_properties(section[idx + 1])
+            if props:
+                self.__setattr__(parser.convert_key_attribute(attr), props)
+                # pystorcli compliance
+                self.facts[attr] = props
 
-        if self.mode.upper() == 'HBA':
-            for idx in range(1, len(section), 2):
-                if not section[idx].replace(' ', ''):
-                    print('NO SECTION') # TODO: remove it later
-                attr = parser.convert_key_dict(section[idx])
-                attr = attr.replace('Information', '')
-                attr = attr.replace('Controller', '').strip()
-                if 'temperature sensors' in attr.lower():
-                    props = {}
-                    for sub_section in section[idx + 1].split('\n\n'):
-                        sub_props = parser.get_properties(sub_section)
-                        if sub_props:
-                            props[sub_props['Sensor ID']] = sub_props
-                else:
-                    props = parser.get_properties(section[idx + 1])
-                if props:
-                    self.__setattr__(parser.convert_key_attribute(attr), props)
-                    # pystorcli compliance
-                    self.facts[attr] = props
-        else:
+        if not self.hba:
+            #TODO: original pyarcconf code, is it needed?
             raid_props = section[2]
             versions = section[4]
             battery = section[6]
-        
             for line in raid_props.split('\n'):
                 if parser.SEPARATOR_ATTRIBUTE in line:
                     key, value = parser.convert_property(line)
@@ -187,7 +230,6 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                print(part) # TODO: remove it later
                 enc = Enclosure(self.id, channel, device, arcconf=self.arcconf)
                 self.enclosures.append(enc)
                 enc.update(lines)
@@ -212,31 +254,3 @@ class Controller():
                 task.__setattr__(key, value)
             self.tasks.append(task)
         return self.tasks
-
-    @property
-    def phyerrorcounters(self):
-        result = self._execute('PHYERRORLOG')
-        result = parser.cut_lines(result, 8)
-        data = {}
-        for phy in result.split('\n\n'):
-            phy = phy.split('\n')
-            _, phyid = parser.convert_property(phy[0])
-            data[phyid] = {}
-            for attr in phy[1:]:
-                key, value = parser.convert_property(attr)
-                data[phyid][key] = value
-        return data
-
-    @property
-    def connectors(self):
-        data = {}
-        result = self._execute('GETCONFIG', ['CN'])[0]
-        result = parser.cut_lines(result, 4)
-        for part in result.split('\n\n'):
-            lines = part.split('\n')
-            cnid = lines[0].split('#')[-1].strip()
-            data[cnid] = {}
-            for line in lines[1:]:
-                key, value = parser.convert_property(line)
-                data[cnid][key] = value
-        return data

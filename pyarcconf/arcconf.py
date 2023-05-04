@@ -34,7 +34,6 @@ class Arcconf():
         if isinstance(_stdout, bytes):
             _stdout = _stdout.decode('utf8').strip()
             _stderr = _stderr.decode('utf8').strip()
-        #return _stdout.split('\n'), proc.returncode
         return _stdout, proc.returncode
 
     def _execute(self, cmd, args=[]):
