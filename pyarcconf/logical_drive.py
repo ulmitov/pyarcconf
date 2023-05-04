@@ -42,16 +42,21 @@ class LogicalDrive():
             base_cmd = [cmd, self.adapter_id, 'LOGICALDRIVE', self.id_]
         return self.arcconf._execute(base_cmd + args)
 
-    def __str__(self):
-        """Build a string formatted object representation."""
-        return '{}|{} {} {} {}'.format(self.id_, self.logical_drive_name, self.raid_level,
-                                       self.status_of_logical_drive, self.size)
+    def __repr__(self):
+        """Define a basic representation of the class object."""
+        return 'LD {} | {} {} {} {}'.format(
+            self.id_,
+            self.logical_drive_name,
+            self.raid_level,
+            self.status_of_logical_drive,
+            self.size
+        )
 
-    def init(self, config=''):
+    def update(self, config=''):
         config = config or self._get_config().split('\n')
         for line in config:
             if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_attribute(line)
+                key, value = parser.convert_property(line)
                 self.__setattr__(key, value)
 
     def _get_config(self):
@@ -116,7 +121,7 @@ class LogicalDrive():
             result = parser.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.split(':')[0].strip() in ['Read-cache', 'Write-cache']:
-                    key, value = parser.convert_attribute(line)
+                    key, value = parser.convert_property(line)
                     self.__setattr__(key, value)
             return True
         return False

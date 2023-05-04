@@ -17,7 +17,8 @@ class Controller():
         self.id = str(adapter_id)
         self.arcconf = arcconf or Arcconf()
         self.model = ''
-        self.channel_description = None
+        self.mode = ''
+        self.channel_description = ''
 
         self._drives = []
         self.lds = []
@@ -28,18 +29,20 @@ class Controller():
         self.versions = {}
         self.battery = {}
 
-        # compliance with pystrocli
+        # pystorcli compliance
         self.facts = {}
         self.name = self.id
 
-        self.fetch_data()
+        self.update()
 
-    def __str__(self):
-        """Build a string formatted object representation."""
-        return '{}|{} {}'.format(self.id, self.model, self.channel_description)
+    def __repr__(self):
+        """Define a basic representation of the class object."""
+        return '<{} | {} {} {}>'.format(
+            self.id, self.mode, self.model, self.channel_description
+        )
 
     def initialize(self):
-        self.fetch_data()
+        self.update()
         self.get_pds()
         self.get_lds()
         self.get_tasks()
@@ -64,12 +67,13 @@ class Controller():
     
     @property
     def expanders(self):
+        """TODO: return expanders objects"""
         result = self._execute('EXPANDERLIST')
         if 'No expanders connected' in result:
             return []
 
-    def fetch_data(self):
-        """Parse the info about the adapter itself."""
+    def update(self):
+        """Parse adapter info"""
         result = self._execute('GETCONFIG', ['AD'])
         result = parser.cut_lines(result, 4)
         section = list(filter(None, result.split(parser.SEPARATOR_SECTION)))
@@ -77,14 +81,25 @@ class Controller():
         info = section[0]
         for line in info.split('\n'):
             if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_attribute(line)
-                key = key.replace('controller_', '')
+                key, value = parser.convert_property(line)
+
+                if key == 'pci_address':
+                    #changing from 0:d9:0:0 to lspci format 0:d9:00.0
+                    value = value.replace(':0:', ':00:')
+                    value = value.split(':')
+                    value = ':'.join(value[:-1]) + '.' + value[-1]
+
+                key = parser.convert_key_attribute(key)
                 self.__setattr__(key, value)
-                self.facts[key.capitalize()] = value
-        print('print(self.facts):')
-        print(self.facts)
-        
-        if self.mode == 'hba':
+                
+                # pystorcli compliance
+                self.__setattr__(key.replace('controller_', ''), value)
+                key = parser.convert_key_dict(line)
+                self.facts[key] = value
+                self.facts[key.replace('Controller ', '')] = value
+
+
+        if self.mode.upper() == 'HBA':
             for idx in range(1, len(section), 2):
                 if not section[idx].replace(' ', ''):
                     print('NO SECTION')
@@ -99,8 +114,10 @@ class Controller():
                 else:
                     props = parser.get_properties(section[idx + 1])
                 if props:
-                    self.facts[attr] = props
                     self.__setattr__(attr, props)
+                    # pystorcli compliance
+                    attr = parser.convert_key_dict(section[idx]).replace('Information', '').replace('Controller', '')
+                    self.facts[attr.strip()] = props
         else:
             raid_props = section[2]
             versions = section[4]
@@ -108,16 +125,19 @@ class Controller():
         
             for line in raid_props.split('\n'):
                 if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_attribute(line)
+                    key, value = parser.convert_property(line)
                     self.raid_properties[key] = value
             for line in versions.split('\n'):
                 if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_attribute(line)
+                    key, value = parser.convert_property(line)
                     self.versions[key] = value
             for line in battery.split('\n'):
                 if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_attribute(line)
+                    key, value = parser.convert_property(line)
                     self.battery[key] = value
+        #TODO: remove it later
+        print('print(self.facts):')
+        print(self.facts)
 
     def get_lds(self):
         """Parse the info about logical drives."""
@@ -134,7 +154,7 @@ class Controller():
             lines = list(filter(None, options.split('\n')))
             logid = lines[0].split()[-1]
             log_drive = LogicalDrive(self.id, logid, arcconf=self.arcconf)
-            log_drive.init(lines)
+            log_drive.update(lines)
 
             for line in list(filter(None, segments.split('\n'))):
                 line = ':'.join(line.split(':')[1:])
@@ -171,11 +191,11 @@ class Controller():
                 print(part)
                 enc = Enclosure(self.id, channel, device, arcconf=self.arcconf)
                 self.enclosures.append(enc)
-                enc.init(lines)
+                enc.update(lines)
                 continue
 
             drive = PhysicalDrive(self.id, channel, device, arcconf=self.arcconf)
-            drive.init(lines)
+            drive.update(lines)
             self._drives.append(drive)
         return self._drives
 
@@ -189,7 +209,7 @@ class Controller():
         for part in result.split('\n\n'):
             task = Task()
             for line in part.split('\n')[1:]:
-                key, value = parser.convert_attribute(line)
+                key, value = parser.convert_property(line)
                 task.__setattr__(key, value)
             self.tasks.append(task)
         return self.tasks
@@ -201,10 +221,10 @@ class Controller():
         data = {}
         for phy in result.split('\n\n'):
             phy = phy.split('\n')
-            _, phyid = parser.convert_attribute(phy[0])
+            _, phyid = parser.convert_property(phy[0])
             data[phyid] = {}
             for attr in phy[1:]:
-                key, value = parser.convert_attribute(attr)
+                key, value = parser.convert_property(attr)
                 data[phyid][key] = value
         return data
 
@@ -218,6 +238,6 @@ class Controller():
             cnid = lines[0].split('#')[-1].strip()
             data[cnid] = {}
             for line in lines[1:]:
-                key, value = parser.convert_attribute(line)
+                key, value = parser.convert_property(line)
                 data[cnid][key] = value
         return data

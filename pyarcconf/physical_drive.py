@@ -16,9 +16,6 @@ class PhysicalDrive():
         self.channel = str(channel).strip()
         self.device = str(device).strip()
         self.model = None
-        self.disk_name = None
-        #compliance with pystorcli
-        self.serial = None
 
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
@@ -38,11 +35,11 @@ class PhysicalDrive():
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return 'Channel#{},Device#{}| {} {} {}'.format(
-            self.channel, self.device, self.model, self.serial, self.disk_name
+        return '<Channel#{},Device#{}| {} {} {}>'.format(
+            self.channel, self.device, self.model, self.serial, self.name
         )
     
-    def init(self, config=''):
+    def update(self, config=''):
         if config and type(config) == list:
             config = '\n'.join(config)
         section = config or self._get_config()
@@ -50,7 +47,7 @@ class PhysicalDrive():
         section = section.split(SEPARATOR_SECTION)
         for line in section[0].split('\n'):
             if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_attribute(line)
+                key, value = parser.convert_property(line)
                 self.__setattr__(key, value)
         if len(section) == 1:
             return
@@ -62,7 +59,14 @@ class PhysicalDrive():
                 attr = attr.replace('device_', '')
                 self.__setattr__(attr, props)
 
-        self.serial = self.serial_number
+    # pysmart compliance
+    @property
+    def serial(self):
+        return getattr(self, 'serial_number', '')
+    # pysmart compliance
+    @property
+    def name(self):
+        return getattr(self, 'disk_name', '').replace('/dev/', '').replace('nvd', 'nvme')
 
     def _get_config(self):
         result = self._execute('GETCONFIG', ['PD', self.channel, self.device])[0]
@@ -127,9 +131,9 @@ class PhysicalDrive():
                 if 'No device attached' in phy:
                     continue
                 phy = phy.split('\n')
-                _, phyid = parser.convert_attribute(phy[0])
+                _, phyid = parser.convert_property(phy[0])
                 data[phyid] = {}
                 for attr in phy[7:]:
-                    key, value = parser.convert_attribute(attr)
+                    key, value = parser.convert_property(attr)
                     data[phyid][key] = value
         return data

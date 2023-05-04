@@ -18,11 +18,9 @@ def cut_lines(output, start, end=0):
     return '\n'.join(output[start:len(output) - end])
 
 
-def convert_attribute(key, value=None):
+def convert_property(key, value=None):
     """Convert an attribute into the most pratical datatype.
-   
-    If the value is 'enabled', 'yes', 'true', 'disabled', 'no' or 'false'
-    it will be converted into boolean, otherwise it stays a string.
+
     Args:
         key (str): attribute key
         value (str): attribute value
@@ -36,22 +34,23 @@ def convert_attribute(key, value=None):
             return
         key, value = key.split(SEPARATOR_ATTRIBUTE)
     key = convert_key_attribute(key)
-    if not key:
-        print(f'WARNING: EMPTY KEY RETURNED')
 
     if len(value.split()) == 2:
         size, unit = value.split()
         if size.isdigit() and unit in ['B', 'KB', 'MB', 'GB']:
             return key, bytes_fmt(float(size))
-    value = value.strip().lower()
-    if value in ['enabled', 'yes', 'true']:
+    value = value.strip()
+    if value.lower() in ['enabled', 'yes', 'true']:
         value = True
-    if value in ['disabled', 'no', 'false']:
+    elif value.lower() in ['disabled', 'no', 'false']:
         value = False
     return key, value
 
 
 def convert_key_attribute(key):
+    """Convert a string to class attribute"""
+    if '(' in key:
+        key = key.split('(')[0]
     key = key.strip().lower()
     if not key:
         print('EMPTY KEY')
@@ -60,13 +59,21 @@ def convert_key_attribute(key):
         key = key.replace(char, '_')
     for char in ['.']:
         key = key.replace(char, '')
-    if '(' in key:
-        key = key.split('(')[0]
     if key[0].isnumeric():
-        print(f"DEBUG 4: {key}")
-        # some properties might have a number on first char
+        # some properties might have a number in first char
         key = '_' + key
     return key.strip()
+
+
+def convert_key_dict(line):
+    """Convert a string to dict key"""
+    key = line.split(SEPARATOR_ATTRIBUTE)[0]
+    if '(' in key:
+        key = key.split('(')[0]
+    key = key.strip()
+    if not key:
+        print(f'EMPTY KEY: {line}')
+    return key
 
 
 def bytes_fmt(value):
@@ -94,14 +101,18 @@ def get_properties(section):
         if not line or line == '\n' or not line.replace('-', '') or not line.replace(' ', ''):
             continue
         if SEPARATOR_ATTRIBUTE not in line:
-            sub_section = convert_key_attribute(line)
+            sub_section = convert_key_dict(line)
 
         if SEPARATOR_ATTRIBUTE in line:
-            key, value = convert_attribute(line)
+            key, value = convert_property(line)
+            #TODO: did not decide yet which format should be the key, adding both
+            dict_key = convert_key_dict(line)
             if sub_section:
                 if not props.get(sub_section, None):
                     props[sub_section] = {}
                 props[sub_section][key] = value
+                props[sub_section][dict_key] = value
             else:
                 props[key] = value
+                props[dict_key] = value
     return props
