@@ -89,7 +89,6 @@ class Controller():
                     value = value.split(':')
                     value = ':'.join(value[:-1]) + '.' + value[-1]
 
-                key = parser.convert_key_attribute(key)
                 self.__setattr__(key, value)
                 
                 # pystorcli compliance
