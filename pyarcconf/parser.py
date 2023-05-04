@@ -30,21 +30,26 @@ def convert_property(key, value=None):
     """
     if not value:
         if SEPARATOR_ATTRIBUTE not in key:
-            print(f'ERROR: {key} is not an attribute')
+            print(f'ERROR: {key} is not a property')
             return
         key, value = key.split(SEPARATOR_ATTRIBUTE)
     key = convert_key_attribute(key)
+    value = convert_value_attribute(value)
+    return key, value
 
+
+def convert_value_attribute(value):
+    """Convert a string to class attribute value"""
     if len(value.split()) == 2:
         size, unit = value.split()
         if size.isdigit() and unit in ['B', 'KB', 'MB', 'GB']:
-            return key, bytes_fmt(float(size))
+            return bytes_fmt(size)
     value = value.strip()
     if value.lower() in ['enabled', 'yes', 'true']:
         value = True
     elif value.lower() in ['disabled', 'no', 'false']:
         value = False
-    return key, value
+    return value
 
 
 def convert_key_attribute(key):
@@ -84,6 +89,7 @@ def bytes_fmt(value):
     Returns:
         str: formated value with unit
     """
+    value = float(value)
     for unit in ['', 'K', 'M', 'G']:
         if abs(value) < 1024.0:
             return '{:3.2}f{}B'.format(value, unit)
@@ -92,6 +98,7 @@ def bytes_fmt(value):
 
 
 def get_properties(section):
+    """Build a dict of properties"""
     if type(section) == str:
         section = section.split('\n')
     props = {}
@@ -104,15 +111,13 @@ def get_properties(section):
             sub_section = convert_key_dict(line)
 
         if SEPARATOR_ATTRIBUTE in line:
-            key, value = convert_property(line)
-            #TODO: did not decide yet which format should be the key, adding both
-            dict_key = convert_key_dict(line)
+            key, value = line.split(SEPARATOR_ATTRIBUTE)
+            key = convert_key_dict(key)
+            value = convert_value_attribute(value)
             if sub_section:
                 if not props.get(sub_section, None):
                     props[sub_section] = {}
                 props[sub_section][key] = value
-                props[sub_section][dict_key] = value
             else:
                 props[key] = value
-                props[dict_key] = value
     return props

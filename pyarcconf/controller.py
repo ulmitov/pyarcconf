@@ -94,6 +94,7 @@ class Controller():
                 # pystorcli compliance
                 self.__setattr__(key.replace('controller_', ''), value)
                 key = parser.convert_key_dict(line)
+                # TODO: did not decide about naming, adding both. the second one is better for pystorcli
                 self.facts[key] = value
                 self.facts[key.replace('Controller ', '')] = value
 
@@ -101,22 +102,22 @@ class Controller():
         if self.mode.upper() == 'HBA':
             for idx in range(1, len(section), 2):
                 if not section[idx].replace(' ', ''):
-                    print('NO SECTION')
-                attr = parser.convert_key_attribute(section[idx])
-                attr = attr.replace('_information', '')
-                if 'temperature_sensors' in attr:
+                    print('NO SECTION') # TODO: remove it later
+                attr = parser.convert_key_dict(section[idx])
+                attr = attr.replace('Information', '')
+                attr = attr.replace('Controller', '').strip()
+                if 'temperature sensors' in attr.lower():
                     props = {}
                     for sub_section in section[idx + 1].split('\n\n'):
                         sub_props = parser.get_properties(sub_section)
                         if sub_props:
-                            props[sub_props['sensor_id']] = sub_props
+                            props[sub_props['Sensor ID']] = sub_props
                 else:
                     props = parser.get_properties(section[idx + 1])
                 if props:
-                    self.__setattr__(attr, props)
+                    self.__setattr__(parser.convert_key_attribute(attr), props)
                     # pystorcli compliance
-                    attr = parser.convert_key_dict(section[idx]).replace('Information', '').replace('Controller', '')
-                    self.facts[attr.strip()] = props
+                    self.facts[attr] = props
         else:
             raid_props = section[2]
             versions = section[4]
@@ -134,7 +135,7 @@ class Controller():
                 if parser.SEPARATOR_ATTRIBUTE in line:
                     key, value = parser.convert_property(line)
                     self.battery[key] = value
-        #TODO: remove it later
+        # TODO: remove it later
         print('print(self.facts):')
         print(self.facts)
 
@@ -172,7 +173,6 @@ class Controller():
         self._drives = []
         result = self._execute('GETCONFIG', ['PD'])
         result = parser.cut_lines(result, 4)
-        #for part in result.split('\n\n'):
         result = re.split('.*Channel #\d+:', result)
         result = [re.split('.*Device #\d+\n', r) for r in result]
         result = [item for sublist in result for item in sublist]
@@ -187,7 +187,7 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                print(part)
+                print(part) # TODO: remove it later
                 enc = Enclosure(self.id, channel, device, arcconf=self.arcconf)
                 self.enclosures.append(enc)
                 enc.update(lines)

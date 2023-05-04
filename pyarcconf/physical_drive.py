@@ -43,7 +43,6 @@ class PhysicalDrive():
         if config and type(config) == list:
             config = '\n'.join(config)
         section = config or self._get_config()
-        
         section = section.split(SEPARATOR_SECTION)
         for line in section[0].split('\n'):
             if parser.SEPARATOR_ATTRIBUTE in line:
@@ -51,11 +50,11 @@ class PhysicalDrive():
                 self.__setattr__(key, value)
         if len(section) == 1:
             return
-        
         for idx in range(1, len(section), 2):
             props = parser.get_properties(section[idx + 1])
             if props:
                 attr = parser.convert_key_attribute(section[idx])
+                # pystorcli compliance
                 attr = attr.replace('device_', '')
                 self.__setattr__(attr, props)
 
@@ -63,6 +62,7 @@ class PhysicalDrive():
     @property
     def serial(self):
         return getattr(self, 'serial_number', '')
+
     # pysmart compliance
     @property
     def name(self):
