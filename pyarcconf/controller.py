@@ -4,6 +4,7 @@ import re
 from . import parser
 from .arcconf import Arcconf
 from .enclosure import Enclosure
+from .array import Array
 from .logical_drive import LogicalDrive, LogicalDriveSegment
 from .physical_drive import PhysicalDrive
 from .task import Task
@@ -38,7 +39,7 @@ class Controller():
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return '<{} | {} {} {}>'.format(
+        return '<Controller{} | {} {} {}>'.format(
             self.id, self.mode, self.model, self.channel_description
         )
 
@@ -193,22 +194,50 @@ class Controller():
         self.lds = []
         result = parser.cut_lines(result, 4)
         for part in result.split('\n\n'):
-            options, _, segments = part.split(parser.SEPARATOR_SECTION)
+            sections = part.split(parser.SEPARATOR_SECTION)
+            options = sections[0]
             lines = list(filter(None, options.split('\n')))
-            logid = lines[0].split()[-1]
-            log_drive = LogicalDrive(self.id, logid, arcconf=self.arcconf)
-            log_drive.update(lines)
+            ldid = lines[0].split()[-1]
+            ld = LogicalDrive(self, ldid, arcconf=self.arcconf)
+            ld.update(lines)
 
-            for line in list(filter(None, segments.split('\n'))):
-                line = ':'.join(line.split(':')[1:])
-                state = line.split()[0].strip()
-                serial = line.split(')')[-1].strip()
-                size, proto, type_, channel, port = line.split('(')[1].split(')')[0].split(',')
-                channel = channel.split(':')[1]
-                port = port.split(':')[1]
-                log_drive.segments.append(LogicalDriveSegment(channel, port, state, serial, proto, type_))
-            self.lds.append(log_drive)
+            if 'Logical Device segment information' in part:
+                segments = sections[-1]
+                for line in list(filter(None, segments.split('\n'))):
+                    line = ':'.join(line.split(':')[1:])
+                    state = line.split()[0].strip()
+                    serial = line.split(')')[-1].strip()
+                    props = line.split('(')[1].split(')')[0].split(',')
+                    if len(props) == 5:
+                        enclosure = None
+                        size, protocol, type_, channel, slot = props
+                    else:
+                        size, protocol, type_, channel, enclosure, slot = props
+                    channel = channel.split(':')[1]
+                    slot = slot.split(':')[1]
+                    ld.segments.append(LogicalDriveSegment(channel, slot, state, serial, protocol, type_, size, enclosure))
+            self.lds.append(ld)
         return self.lds
+    
+    def get_arrays(self):
+        """Parse the info about drive arrays."""
+        result = self._execute('GETCONFIG', ['AR'])
+        if 'not supported' in result:
+            # HBA case
+            return []
+        if 'No arrays configured' in result:
+            return []
+        self.arrays = []
+        result = parser.cut_lines(result, 4)
+        for part in result.split('\n\n'):
+            sections = part.split(parser.SEPARATOR_SECTION)
+            options = sections[0]
+            lines = list(filter(None, options.split('\n')))
+            ldid = lines[0].split()[-1]
+            ld = Array(self, ldid, arcconf=self.arcconf)
+            ld.update(lines)
+            self.arrays.append(ld)
+        return self.arrays
 
     def get_pds(self):
         """Parse the info about physical drives.
@@ -230,12 +259,12 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                enc = Enclosure(self.id, channel, device, arcconf=self.arcconf)
+                enc = Enclosure(self, channel, device, arcconf=self.arcconf)
                 self.enclosures.append(enc)
                 enc.update(lines)
                 continue
 
-            drive = PhysicalDrive(self.id, channel, device, arcconf=self.arcconf)
+            drive = PhysicalDrive(self, channel, device, arcconf=self.arcconf)
             drive.update(lines)
             self._drives.append(drive)
         return self._drives
@@ -254,3 +283,82 @@ class Controller():
                 task.__setattr__(key, value)
             self.tasks.append(task)
         return self.tasks
+
+    def get_logs(self, log_type='EVENT', args=None):
+        """ GETLOGS command
+        Args:
+            log_type (str): One of: DEVICE,DEAD,EVENT,STATS,CACHE
+            args (list): list of additional args
+        Return:
+            dict: dict of events
+        """
+        args = list(args) if args else []
+        result = self._execute('GETLOGS', [log_type] + args)
+        if 'not supported' in result:
+            return {}
+        result = ''.join(result.split('\n')[1:])
+        import xml.etree.ElementTree as ET
+        logs = ET.fromstring(result)
+        ev = {}
+        for child in logs:
+            ev[child.tag] = child.attrib
+        return ev
+
+    def set_config(self):
+        """Reset controller to default settings, removes all LDs"""
+        result = self._execute('SETCONFIG', ['default'])
+        return result
+
+    def set_connector_mode(self, args):
+        result = self._execute('SETCONNECTORMODE', args + ['noprompt'])
+        return result
+
+    def set_controller_mode(self, args):
+        result = self._execute('SETCONTROLLERMODE', args + ['noprompt'])
+        return result
+
+    def set_stats_data_collection(self, enable=True):
+        result = self._execute('SETSTATSDATACOLLECTION', ['Enable' if enable else 'Disable'])
+        return result
+
+    # pystorcli compliance
+    def create_vd(self, *args, **kwargs):
+        return self.create_ld(*args, **kwargs)
+
+    def create_ld(self, name, raid, drives, strip: str = '64', size: str = 'MAX'):
+        """
+        Args:
+            name (str): virtual drive name
+            raid (str): virtual drive raid level (raid0, raid1, ...)
+            drives (str): storcli drives expression (e:s|e:s-x|e:s-x,y;e:s-x,y,z)
+            strip (str, optional): virtual drive raid strip size 16, 32, 64, 128, 256, 512 and 1024 are supported. The default is 128 KB
+            size (str, optional): size of the logical drive in megabytes or MAX or MAXMBR (2TB)
+
+        Returns:
+            (None): no virtual drive created with name
+            (:obj:virtualdrive.VirtualDrive)
+        """
+        args = ['logicaldrive']
+        if name:
+            args += ['Name', name]
+        if strip:
+            args += ['Stripesize', strip]
+        args.append(size)
+        args.append(str(raid).lower().replace('raid', ''))
+        if type(drives) != str:
+            if type(drives[0]) == str:
+                # list of ['channel', 'device'] numbers
+                drives = ' '.join(drives)
+            else:
+                # list of drive objects
+                drv_list = []
+                for d in drives:
+                    drv_list += [d.channel, d.device]
+                drives = ' '.join(drv_list)
+        args.append(drives)
+        self._execute('CREATE', args + ['noprompt'])
+        # TODO: if name is empty then we return None and user should find the vd by himself ?
+        # but if name is a dup of other ld, then what? solution - find ld according to drives
+        for ld in self.get_lds():
+            if ld.logical_device_name == name:
+                return ld

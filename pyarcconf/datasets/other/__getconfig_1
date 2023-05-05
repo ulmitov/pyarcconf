@@ -1,0 +1,183 @@
+Controllers found: 1
+
+----------------------------------------------------------------------
+
+Controller information
+
+----------------------------------------------------------------------
+
+Controller Status                        : Okay
+
+Channel description                      : SAS/SATA
+
+Controller Model                         : IBM ServeRAID 8k-l
+
+Controller Serial Number                 : 1BC953C0
+
+Physical Slot                            : 0
+
+Installed memory                         : 32 MB
+
+Copyback                                 : Disabled
+
+Data scrubbing                           : Enabled
+
+Defunct disk drive count                 : 0
+
+Logical drives/Offline/Critical          : 1/0/0
+
+--------------------------------------------------------
+
+Controller Version Information
+
+--------------------------------------------------------
+
+BIOS                                     : 5.2-0 (15421)
+
+Firmware                                 : 5.2-0 (15421)
+
+Driver                                   : 1.1-5 (2409)
+
+Boot Flash                               : 5.1-0 (15411)
+
+--------------------------------------------------------
+
+Controller Battery Information
+
+--------------------------------------------------------
+
+Status                                   : Not Installed
+
+--------------------------------------------------------
+
+Controller Vital Product Data
+
+--------------------------------------------------------
+
+VPD Assigned#                            : 25R8078
+
+EC Version#                              : J85097A
+
+Controller FRU#                          : 25R8079
+
+----------------------------------------------------------------------
+
+Logical drive information
+
+----------------------------------------------------------------------
+
+Logical drive number 1
+
+Logical drive name                       : raid1
+
+RAID level                               : 1
+
+Status of logical drive                  : Okay
+
+Size                                     : 139889 MB
+
+Write-cache mode                         : Not supported
+
+Partitioned                              : Yes
+
+Number of segments                       : 2
+
+Drive(s) (Channel,Device)                : 0,0 0,1
+
+Defunct segments                         : No
+
+----------------------------------------------------------------------
+
+Physical Device information
+
+----------------------------------------------------------------------
+
+Device #0
+
+Device is a Hard drive
+
+State                              : Online
+
+Supported                          : Yes
+
+Transfer Speed                     : SAS 3.0 Gb/s
+
+Reported Channel,Device            : 0,0
+
+Reported Location                  : Enclosure 0, Slot 0
+
+Reported ESD                       : 2,0
+
+Vendor                             : IBM-ESXS
+
+Model                              : VPBA146C3ETS11 N
+
+Firmware                           : A496
+
+Serial number                      : JFXGHVPC
+
+World-wide name                    : 5000CCA00D8B1EFB
+
+Size                               : 140013 MB
+
+Write Cache                        : Disabled (write-through)
+
+FRU                                : 39R7362
+
+PFA                                : No
+
+Device #1
+
+Device is a Hard drive
+
+State                              : Online
+
+Supported                          : Yes
+
+Transfer Speed                     : SAS 3.0 Gb/s
+
+Reported Channel,Device            : 0,1
+
+Reported Location                  : Enclosure 0, Slot 1
+
+Reported ESD                       : 2,0
+
+Vendor                             : IBM-ESXS
+
+Model                              : VPBA146C3ETS11 N
+
+Firmware                           : A496
+
+Serial number                      : JFWAZENC
+
+World-wide name                    : 5000CCA00D4C55F3
+
+Size                               : 140013 MB
+
+Write Cache                        : Disabled (write-through)
+
+FRU                                : 39R7362
+
+PFA                                : No
+
+Device #2
+
+Device is an Enclosure services device
+
+Reported Channel,Device            : 2,0
+
+Enclosure ID                       : 0
+
+Type                               : SES2
+
+Vendor                             : IBM-ESXS
+
+Model                              : VSC7160
+
+Firmware                           : 1.07
+
+Status of Enclosure services device
+
+Temperature                     : Normal
+
+Command completed successfully.

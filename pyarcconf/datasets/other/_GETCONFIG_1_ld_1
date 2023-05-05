@@ -1,0 +1,29 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 1
+   Logical device name                      : A2
+   RAID level                               : 10
+   Status of logical device                 : Optimal
+   Size                                     : 1360544 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache mode                          : Enabled
+   MaxIQ preferred cache setting            : Disabled
+   MaxIQ cache setting                      : Disabled
+   Write-cache mode                         : Enabled (write-back)
+   Write-cache setting                      : Enabled (write-back)
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                       : Present (0,8)      WD-WMATV6899266
+   Group 0, Segment 1                       : Present (0,9)      WD-WMATV6939288
+   Group 1, Segment 0                       : Present (0,10)      WD-WMATV6911402
+   Group 1, Segment 1                       : Present (0,11)      WD-WMATV6912818
+
+Command completed successfully.

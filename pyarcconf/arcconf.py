@@ -1,4 +1,18 @@
-"""Python3 library for the arcconf tool."""
+"""Python3 library for the arcconf tool.
+
+https://download.adaptec.com/pdfs/user_guides/adaptec_cli_smarthba_smartraid_7_21_ug.pdf
+https://download.adaptec.com/pdfs/user_guides/microsemi_cli_smarthba_smartraid_v3_00_23484_ug.pdf
+http://download.adaptec.com/pdfs/user_guides/cli_arc_v2_02_22404_users_guide.pdf
+
+old versions outputs:
+https://www.lcg.triumf.ca/files/recipes/65/procedure.txt
+
+
+troubleshoot:
+https://www.ibm.com/support/pages/diagnosing-bad-stripes-mt-7979-host-puredata-system-analytics-n1001
+https://wiki.miko.ru/kb:sysadm:arcconf
+
+"""
 import logging
 import subprocess
 
@@ -38,7 +52,12 @@ class Arcconf():
 
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
-
+        Return codes:
+        0x00: SUCCESS
+        0x01: FAILURE - The requested command failed
+        0x02: ABORT - The command was aborted because parameters failed validation
+        0x03: INVALID_ARGUMENTS - The arguments are incorrect. (Displays COMMAND help)
+        0x06: INVALID_CARD_NUM - Unable to find the specified controller ID
         Args:
             args (list):
         Returns:

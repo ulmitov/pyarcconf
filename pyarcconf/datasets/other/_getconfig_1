@@ -1,0 +1,56 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+Controller Status : Okay
+Channel description : SAS/SATA
+Controller Model : IBM ServeRAID 8k
+Controller Serial Number : 5AB49E0
+Physical Slot : 0
+Installed memory : 256 MB
+Copyback : Disabled
+Data scrubbing : Enabled
+Defunct disk drive count : 0
+Logical drives/Offline/Critical : 1/0/0
+--------------------------------------------------------
+Controller Version Information
+--------------------------------------------------------
+BIOS : 5.2-0 (17003)
+Firmware : 5.2-0 (17003)
+Driver : 1.2-0 (30200)
+Boot Flash : 5.1-0 (17002)
+--------------------------------------------------------
+Controller Battery Information
+--------------------------------------------------------
+Status : Okay
+Over temperature : No
+Capacity remaining : 100 percent
+Time remaining (at current draw) : 3 days, 20 hours, 56 minutes
+--------------------------------------------------------
+Controller Vital Product Data
+--------------------------------------------------------
+VPD Assigned# : 39R8875
+EC Version# : J85096
+Controller FRU# : 25R8076
+Battery FRU# : 25R8088
+
+----------------------------------------------------------------------
+Logical drive information
+----------------------------------------------------------------------
+Logical drive number 1
+Logical drive name : Dom0_RAID6
+RAID level : 6
+Status of logical drive : Okay
+Size : 419400 MB
+Read-cache mode : Enabled
+Write-cache mode : Enabled (write-back)
+Write-cache setting : Enabled (write-back)
+Partitioned : Yes
+Number of segments : 8
+Stripe-unit size : 256 KB
+Stripe order (Channel,Device) : 0,0 0,1 0,2 0,3 0,4 0,5
+0,6 0,7
+Defunct segments : No
+Defunct stripes : No
+
+Command completed successfully.

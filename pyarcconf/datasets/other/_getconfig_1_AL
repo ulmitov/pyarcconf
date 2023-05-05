@@ -1,0 +1,119 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+  Controller Status                        : Okay
+  Channel description                      : SAS/SATA
+  Controller Model                         : IBM ServeRAID 8k   
+  Controller Serial Number                 : 5AB94A0
+  Physical Slot                            : 0
+  Installed memory                         : 256 MB
+  Copyback                                 : Disabled
+  Data scrubbing                           : Enabled
+  Defunct disk drive count                 : 0
+  Logical drives/Offline/Critical          : 1/0/0
+  --------------------------------------------------------
+  Controller Version Information
+  --------------------------------------------------------
+  BIOS                                     : 5.2-0 (15411)
+  Firmware                                 : 5.2-0 (15411)
+  Driver                                   : 1.1-5 (2441)
+  Boot Flash                               : 5.1-0 (15411)
+  --------------------------------------------------------
+  Controller Battery Information
+  --------------------------------------------------------
+  Status                                   : Okay
+  Over temperature                         : No
+  Capacity remaining                       : 100 percent
+  Time remaining (at current draw)         : 5 days, 13 hours, 19 minutes
+  --------------------------------------------------------
+  Controller Vital Product Data
+  --------------------------------------------------------
+  VPD Assigned#                            : 39R8875
+  EC Version#                              : J85096
+  Controller FRU#                          : 25R8076
+  Battery FRU#                             : 25R8088
+
+
+----------------------------------------------------------------------
+Logical drive information
+----------------------------------------------------------------------
+Logical drive number 1
+  Logical drive name                       : somang
+  RAID level                               : 5
+  Status of logical drive                  : Impacted
+  Size                                     : 1907388 MB
+  Read-cache mode                          : Enabled
+  Write-cache mode                         : Enabled (write-back)
+  Write-cache setting                      : Enabled (write-back) when protected by battery
+  Partitioned                              : Yes
+  Number of segments                       : 3
+  Stripe-unit size                         : 256 KB
+  Stripe order (Channel,Device)            : 0,0 0,1 0,2
+  Defunct segments                         : No
+  Defunct stripes                          : No
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+     Device #0
+        Device is a Hard drive
+        State                              : Online
+        Supported                          : Yes
+        Transfer Speed                     : SATA 1.5 Gb/s
+        Reported Channel,Device            : 0,0
+        Reported Location                  : Enclosure 0, Slot 0
+        Reported ESD                       : 2,0
+        Vendor                             : HUA72101
+        Model                              : 0KLA330
+        Firmware                           : GKAOAB4A
+        Serial number                      : GTA060PAJSDEGF
+        Size                               : 953869 MB
+        Write Cache                        : Enabled (write-back)
+        FRU                                : None
+        PFA                                : No
+     Device #1
+        Device is a Hard drive
+        State                              : Online
+        Supported                          : Yes
+        Transfer Speed                     : SATA 1.5 Gb/s
+        Reported Channel,Device            : 0,1
+        Reported Location                  : Enclosure 0, Slot 1
+        Reported ESD                       : 2,0
+        Vendor                             : HUA72101
+        Model                              : 0KLA330
+        Firmware                           : GKAOA9EA
+        Serial number                      : GTA060PAJ93P4F
+        Size                               : 953869 MB
+        Write Cache                        : Enabled (write-back)
+        FRU                                : None
+        PFA                                : No
+     Device #2
+        Device is a Hard drive
+        State                              : Online
+        Supported                          : Yes
+        Transfer Speed                     : SATA 1.5 Gb/s
+        Reported Channel,Device            : 0,2
+        Reported Location                  : Enclosure 0, Slot 2
+        Reported ESD                       : 2,0
+        Vendor                             : HUA72101
+        Model                              : 0KLA330
+        Firmware                           : GKAOA9EA
+        Serial number                      : GTA060PAJ8LAYF
+        Size                               : 953869 MB
+        Write Cache                        : Enabled (write-back)
+        FRU                                : None
+        PFA                                : No
+     Device #3
+        Device is an Enclosure services device
+        Reported Channel,Device            : 2,0
+        Enclosure ID                       : 0
+        Type                               : SES2
+        Vendor                             : IBM-ESXS
+        Model                              : VSC7160
+        Firmware                           : 1.07
+        Status of Enclosure services device
+           Temperature                     : Normal
+
+Command completed successfully.

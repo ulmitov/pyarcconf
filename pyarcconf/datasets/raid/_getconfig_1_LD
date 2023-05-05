@@ -1,0 +1,67 @@
+Controllers found: 1
+--------------------------------------------------------
+Logical device information
+--------------------------------------------------------
+Logical Device number 0
+   Logical Device name                        : RAID1
+   Disk Name                                  : /dev/sdb
+   Block Size of member drives                : 4K Bytes
+   Array                                      : 0
+   RAID level                                 : 1
+   Status of Logical Device                   : Optimal
+   Size                                       : 11364320 MB
+   Stripe-unit size                           : 64 KB
+   Full Stripe Size                           : 64 KB
+   Interface Type                             : SAS 4K
+   Device Type                                : Data
+   Boot Type                                  : None
+   Heads                                      : 255
+   Sectors Per Track                          : 32
+   Cylinders                                  : 65535
+   Caching                                    : Disabled
+   Mount Points                               : Not Mounted
+   LD Acceleration Method                     : None
+   Volume Unique Identifier                   : 600508B1001CF1A2E058530BA221FBBB
+--------------------------------------------------------
+   Array Physical Device Information
+--------------------------------------------------------
+   Device ID                                  : Availability (SizeMB, Protocol, Type, Connector ID, Location) Serial Number
+--------------------------------------------------------
+   Device 8                                   : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:0) 8DGYNB3H
+   Device 9                                   : Present (11364352MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:1) 8HHWTJVH
+
+
+Logical Device number 1
+   Logical Device name                        : RAID10
+   Disk Name                                  : /dev/sdc
+   Block Size of member drives                : 4K Bytes
+   Array                                      : 1
+   RAID level                                 : 10
+   Status of Logical Device                   : Optimal
+   Size                                       : 22728640 MB
+   Stripe-unit size                           : 64 KB
+   Full Stripe Size                           : 128 KB
+   Interface Type                             : SAS 4K
+   Device Type                                : Data
+   Boot Type                                  : None
+   Heads                                      : 255
+   Sectors Per Track                          : 32
+   Cylinders                                  : 65535
+   Caching                                    : Disabled
+   Mount Points                               : Not Mounted
+   LD Acceleration Method                     : None
+   Volume Unique Identifier                   : 600508B1001CA68D3EC043F5687BF245
+--------------------------------------------------------
+   Logical Device segment information
+--------------------------------------------------------
+   Segment                                    : Availability (SizeMB, Protocol, Type, Connector ID, Location) Serial Number
+--------------------------------------------------------
+   Group 0, Segment 0                         : Present (15153152MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:3) ZR7009EV0000C2020QQZ
+   Group 0, Segment 1                         : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:5) 8DG76EGD
+   Group 1, Segment 0                         : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:4) 8DG7B64D
+   Group 1, Segment 1                         : Present (11364352MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:6) 8DGXZK8H
+
+
+
+
+Command completed successfully.

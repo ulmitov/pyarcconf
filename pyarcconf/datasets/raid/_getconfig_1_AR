@@ -1,0 +1,63 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Array Information
+----------------------------------------------------------------------
+Array Number 0
+   Name                                       : A
+   Status                                     : Ok
+   Interface                                  : SAS 4K
+   Total Size                                 : 22728704 MB
+   Unused Size                                : 0 MB
+   Block Size                                 : 4K Bytes
+   Array Utilization                          : 100.00% Used, 0.00% Unused
+   Type                                       : Data
+   Transformation Status                      : Not Applicable
+   Spare Rebuild Mode                         : Dedicated
+   SSD I/O Bypass                             : Not Applicable
+--------------------------------------------------------
+   Array Logical Device Information
+--------------------------------------------------------
+   Logical ID                                 : Status (RAID, Interface, SizeMB) Name
+--------------------------------------------------------
+   Logical 0                                  : Optimal (1, Data, 11364320 MB) RAID1
+--------------------------------------------------------
+   Array Physical Device Information
+--------------------------------------------------------
+   Device ID                                  : Availability (SizeMB, Protocol, Type, Connector ID, Location) Serial Number
+--------------------------------------------------------
+   Device 8                                   : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:0) 8DGYNB3H
+   Device 9                                   : Present (11364352MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:1) 8HHWTJVH
+
+
+Array Number 1
+   Name                                       : B
+   Status                                     : Ok
+   Interface                                  : SAS 4K
+   Total Size                                 : 45457408 MB
+   Unused Size                                : 0 MB
+   Block Size                                 : 4K Bytes
+   Array Utilization                          : 100.00% Used, 0.00% Unused
+   Type                                       : Data
+   Transformation Status                      : Not Applicable
+   Spare Rebuild Mode                         : Dedicated
+   SSD I/O Bypass                             : Not Applicable
+--------------------------------------------------------
+   Array Logical Device Information
+--------------------------------------------------------
+   Logical ID                                 : Status (RAID, Interface, SizeMB) Name
+--------------------------------------------------------
+   Logical 1                                  : Optimal (10, Data, 22728640 MB) RAID10
+--------------------------------------------------------
+   Array Physical Device Information
+--------------------------------------------------------
+   Device ID                                  : Availability (SizeMB, Protocol, Type, Connector ID, Location) Serial Number
+--------------------------------------------------------
+   Device 11                                  : Present (15153152MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:3) ZR7009EV0000C2020QQZ
+   Device 12                                  : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:4) 8DG7B64D
+   Device 13                                  : Present (11444224MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:5) 8DG76EGD
+   Device 14                                  : Present (11364352MB, SAS, HDD, Connector:CN0, Enclosure:1, Slot:6) 8DGXZK8H
+
+
+
+
+Command completed successfully.

@@ -5,8 +5,8 @@ from .arcconf import Arcconf
 from .physical_drive import PhysicalDrive
 
 
-class LogicalDrive():
-    """Object which represents a logical drive."""
+class Array():
+    """Object which represents an Array of logical\physical drives"""
 
     def __init__(self, adapter_obj, id_, arcconf=None):
         """Initialize a new LogicalDrive object."""
@@ -14,40 +14,9 @@ class LogicalDrive():
         self.adapter = adapter_obj
         self.adapter_id = str(adapter_obj.id)
         self.id = str(id_)
-        self.raid_level = None
-        self.size = None
-
-        # those are not used and naming is old
-        self.logical_device_name = None
-        self.status_of_logical_device = None
-        self.read_cache_mode = None
-        self.write_cache_mode = None
-        self.write_cache_setting = None
-        self.partitioned = None
-        self.protected_by_hot_spare = None
-        self.bootable = None
-        self.failed_stripes = None
-        self.power_settings = None
-        self.segments = []
 
         # pystorcli compliance
         self.facts = {}
-    # pystorcli compliance
-    @property
-    def raid(self):
-        return getattr(self, 'raid_level', '')
-    # pystorcli compliance
-    @property
-    def os_name(self):
-        return getattr(self, 'disk_name', '')
-
-    def __repr__(self):
-        """Define a basic representation of the class object."""
-        return '<LD {} | Raid{} {}>'.format(
-            self.id,
-            self.raid_level,
-            self.size
-        )
 
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
@@ -62,8 +31,16 @@ class LogicalDrive():
         if cmd == 'GETCONFIG':
             base_cmd = [cmd, self.adapter_id]
         else:
-            base_cmd = [cmd, self.adapter_id, 'LOGICALDRIVE', self.id]
+            base_cmd = [cmd, self.adapter_id, 'ARRAY', self.id_]
         return self.arcconf._execute(base_cmd + args)
+
+    def __repr__(self):
+        """Define a basic representation of the class object."""
+        return '<AR {} | {} {}>'.format(
+            self.id,
+            getattr(self, 'interface', ''),
+            getattr(self, 'total_size', '')
+        )
 
     def update(self, config=''):
         if config and type(config) == list:
@@ -79,7 +56,7 @@ class LogicalDrive():
                 self.facts[key] = value
 
     def _get_config(self):
-        result = self._execute('GETCONFIG', ['LD', self.id])[0]
+        result = self._execute('GETCONFIG', ['AR', self.id])[0]
         result = parser.cut_lines(result, 4)
         return result
     
@@ -88,11 +65,24 @@ class LogicalDrive():
         config = self._get_config()
         config = config.split(parser.SEPARATOR_SECTION)[-1]
         drives = []
-        print(config)
         for line in config.split('\n'):
             if not line:
                 continue
             serial = line.split(')')[1].strip()
+            # TODO: create new objects instead of getting them from the controller ?
+            for d in self.adapter.drives:
+                if serial == d.serial:
+                    d.update()
+                    drives.append(d)
+        return drives
+    
+    @property
+    def lgs(self):
+        config = self._get_config()
+        config = config.split(parser.SEPARATOR_SECTION)[-4]
+        drives = []
+        for line in config.split('\n'):
+            serial = line.split(parser.SEPARATOR_ATTRIBUTE)[0].strip()
             # TODO: create new objects instead of getting them from the controller ?
             for d in self.adapter.drives:
                 if serial == d.serial:
@@ -162,21 +152,3 @@ class LogicalDrive():
             return True
         return False
 
-
-class LogicalDriveSegment():
-    """Object which represents a logical drive segment."""
-
-    def __init__(self, channel, port, state, serial, protocol, type_, size, enclosure=None):
-        """Initialize a new PhysicalDrive object."""
-        self.channel = channel
-        self.port = port
-        self.state = state
-        self.serial = serial
-        self.protocol = protocol
-        self.type = type_
-        self.size = size
-        self.enclosure = enclosure
-
-    def __str__(self):
-        """Build a string formatted object representation."""
-        return '{},{} {} {}'.format(self.channel, self.port, self.state, self.serial)

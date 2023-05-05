@@ -1,0 +1,32 @@
+Controllers found: 1
+
+Logical device Task:
+
+   Logical device                 : 0
+
+   Task ID                        : 102
+
+   Current operation              : Compacting
+
+   Status                         : In Progress
+
+   Priority                       : High
+
+   Percentage complete            : 9
+
+
+Logical device Task:
+
+   Logical device                 : 1
+
+   Task ID                        : 103
+
+   Current operation              : Rebuild
+
+   Status                         : In Progress
+
+   Priority                       : High
+
+   Percentage complete            : 3
+
+Command completed successfully.

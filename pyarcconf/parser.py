@@ -72,6 +72,11 @@ def convert_key_attribute(key):
 
 def convert_key_dict(line):
     """Convert a string to dict key"""
+    # clear from garbage
+    for key in line.split('\n'):
+        if key.replace('-', ''):
+            line = key
+            break
     key = line.split(SEPARATOR_ATTRIBUTE)[0]
     if '(' in key:
         key = key.split('(')[0]

@@ -9,12 +9,20 @@ SEPARATOR_SECTION = 64 * '-'
 class PhysicalDrive():
     """Object which represents a physical drive."""
 
-    def __init__(self, adapter_id, channel, device, arcconf=None):
+    def __init__(self, adapter_obj, channel, device, arcconf=None):
         """Initialize a new LogicalDriveSegment object."""
         self.arcconf = arcconf or Arcconf()
-        self.adapter_id = str(adapter_id)
+        self.adapter = adapter_obj
+        self.adapter_id = str(adapter_obj.id)
         self.channel = str(channel).strip()
         self.device = str(device).strip()
+        # pystorcli compliance
+        self.facts = {}
+
+    # pystorcli compliance
+    @property
+    def encl_id(self):
+        return getattr(self, 'raid_level', '')
 
     def _execute(self, cmd, args=[]):
         """Execute a command using arcconf.
@@ -34,7 +42,7 @@ class PhysicalDrive():
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return '<Channel #{},Device #{}| {}>'.format(
+        return '<PD Channel #{},Device #{}| {}>'.format(
             self.channel,
             self.device,
             ' '.join([
@@ -54,6 +62,9 @@ class PhysicalDrive():
             if parser.SEPARATOR_ATTRIBUTE in line:
                 key, value = parser.convert_property(line)
                 self.__setattr__(key, value)
+                # pystorcli compliance
+                key = parser.convert_key_dict(line)
+                self.facts[key] = value
         if len(section) == 1:
             return
         for idx in range(1, len(section), 2):

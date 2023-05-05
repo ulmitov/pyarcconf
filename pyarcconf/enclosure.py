@@ -48,6 +48,7 @@ class Enclosure(PhysicalDrive):
       Status of Enclosure Services Device
          Speaker status                    : Not Available
    """
+   #TODO: this method is not really needed for now
    def _execute(self, cmd, args=[]):
       """Execute a command using arcconf.
 
