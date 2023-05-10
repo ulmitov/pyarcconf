@@ -1,6 +1,6 @@
-"""Pyarcconf submodule, which provides a logical drive representing class."""
+"""Logical (Virtual) drive class"""
 
-from . import parser
+from . import runner
 from .arcconf import Arcconf
 from .physical_drive import PhysicalDrive
 
@@ -8,11 +8,11 @@ from .physical_drive import PhysicalDrive
 class LogicalDrive():
     """Object which represents a logical drive."""
 
-    def __init__(self, adapter_obj, id_, arcconf=None):
+    def __init__(self, controller_obj, id_, cmdrunner=None):
         """Initialize a new LogicalDrive object."""
-        self.arcconf = arcconf or Arcconf()
-        self.adapter = adapter_obj
-        self.adapter_id = str(adapter_obj.id)
+        self.runner = cmdrunner or Arcconf()
+        self.controller = controller_obj
+        self.controller_id = str(controller_obj.id)
         self.id = str(id_)
         self.raid_level = None
         self.size = None
@@ -50,43 +50,43 @@ class LogicalDrive():
         )
 
     def _execute(self, cmd, args=[]):
-        """Execute a command using arcconf.
+        """Execute a command
 
         Args:
             args (list):
         Returns:
-            str: arcconf output
+            str: output
         Raises:
             RuntimeError: if command fails
         """
         if cmd == 'GETCONFIG':
-            base_cmd = [cmd, self.adapter_id]
+            base_cmd = [cmd, self.controller_id]
         else:
-            base_cmd = [cmd, self.adapter_id, 'LOGICALDRIVE', self.id]
-        return self.arcconf._execute(base_cmd + args)
+            base_cmd = [cmd, self.controller_id, 'LOGICALDRIVE', self.id]
+        return self.runner._execute(base_cmd + args)
 
     def update(self, config=''):
         if config and type(config) == list:
             config = '\n'.join(config)
         config = config or self._get_config()
-        config = config.split(parser.SEPARATOR_SECTION)[0]
+        config = config.split(runner.SEPARATOR_SECTION)[0]
         for line in config.split('\n'):
-            if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_property(line)
+            if runner.SEPARATOR_ATTRIBUTE in line:
+                key, value = runner.convert_property(line)
                 self.__setattr__(key, value)
                 # pystorcli compliance
-                key = parser.convert_key_dict(line)
+                key = runner.convert_key_dict(line)
                 self.facts[key] = value
 
     def _get_config(self):
         result = self._execute('GETCONFIG', ['LD', self.id])[0]
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         return result
     
     @property
     def drives(self):
         config = self._get_config()
-        config = config.split(parser.SEPARATOR_SECTION)[-1]
+        config = config.split(runner.SEPARATOR_SECTION)[-1]
         drives = []
         print(config)
         for line in config.split('\n'):
@@ -94,7 +94,7 @@ class LogicalDrive():
                 continue
             serial = line.split(')')[1].strip()
             # TODO: create new objects instead of getting them from the controller ?
-            for d in self.adapter.drives:
+            for d in self.controller.drives:
                 if serial == d.serial:
                     d.update()
                     drives.append(d)
@@ -111,7 +111,7 @@ class LogicalDrive():
         result, rc = self._execute('SETNAME', [name])
         if not rc:
             result = self._execute('GETCONFIG', ['LD', self.id])
-            result = parser.cut_lines(result, 4)
+            result = runner.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Logical Device Name'):
                     self.logical_device_name = line.split(':')[1].strip().lower()
@@ -129,7 +129,7 @@ class LogicalDrive():
         result, rc = self._execute('SETSTATE', [state])
         if not rc:
             result = self._execute('GETCONFIG', ['LD', self.id])
-            result = parser.cut_lines(result, 4)
+            result = runner.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Status'):
                     self.status_of_logical_device = line.split(':')[1].strip().lower()
@@ -154,10 +154,10 @@ class LogicalDrive():
         result, rc = self._execute('SETCACHE', [mode])
         if not rc:
             result = self._execute('GETCONFIG', ['LD', self.id])
-            result = parser.cut_lines(result, 4)
+            result = runner.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.split(':')[0].strip() in ['Read-cache', 'Write-cache']:
-                    key, value = parser.convert_property(line)
+                    key, value = runner.convert_property(line)
                     self.__setattr__(key, value)
             return True
         return False

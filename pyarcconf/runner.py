@@ -1,21 +1,72 @@
-"""Pyarcconf submodule, which provides methods for easier output parsing."""
+"""Command execute and output parse methods"""
+import os
+import re
+import shutil
+from subprocess import Popen, PIPE
 
-SEPARATOR_ATTRIBUTE = ' : '
+SEPARATOR_ATTRIBUTE = ': '
 SEPARATOR_SECTION = 56 * '-'
+
+
+class CMDRunner():
+    """This is a simple wrapper for subprocess.Popen()/subprocess.run(). The main idea is to inherit this class and create easy mockable tests.
+    """
+    def __init__(self, path=''):
+        """Initialize a new MVCLI object.
+        
+        Args:
+            path (str): path to mvcli binary
+        """
+        self.path = self.binaryCheck(path)
+    
+    def run(self, args, **kwargs):
+        """Runs a command and returns the output.
+        """
+        proc = Popen(args, stdout=PIPE, stderr=PIPE, **kwargs)
+
+        _stdout, _stderr = [i.decode('utf8') for i in proc.communicate()]
+
+        return _stdout, _stderr, proc.returncode
+
+    def binaryCheck(self, binary) -> str:
+        """Verify and return full binary path
+        """
+        _bin = shutil.which(binary)
+        if not _bin:
+            raise Exception(
+                "Cannot find storcli binary '%s'" % (binary))
+        return _bin
 
 
 def cut_lines(output, start, end=0):
     """Cut a number of lines from the start and the end.
 
     Args:
-        output (str): command output from arcconf
+        output (str|list): command output from arcconf
         start (int): offset from start
         end (int): offset from end
     Returns:
-        str: cutted output
+        str|list: cutted output
     """
-    output = output.split('\n')
-    return '\n'.join(output[start:len(output) - end])
+    islist = type(output) == list
+    if not islist:
+        output = output.split('\n')
+    output = output[start:len(output) - end]
+    return output if islist else '\n'.join(output)
+
+
+def sanitize_stdout(output, last_line=True):
+    islist = type(output) == list
+    output = output if islist else output.split('\n')
+    while output and not output[-1]:
+        del output[-1]
+    if not output:
+        return [] if islist else ''
+    if last_line and last_line in output[-1]:
+        del output[-1]
+    while output and not output[-1]:
+        del output[-1]
+    return output if islist else '\n'.join(output)
 
 
 def convert_property(key, value=None):
@@ -62,11 +113,11 @@ def convert_key_attribute(key):
         return key
     for char in [' ', '-', ',', '/']:
         key = key.replace(char, '_')
-    for char in ['.']:
-        key = key.replace(char, '')
     if key[0].isnumeric():
-        # some properties might have a number in first char
+        # first char might be a number
         key = '_' + key
+    # clear special chars
+    key = re.sub('[^a-zA-Z0-9\_]', '', key)
     return key.strip()
 
 

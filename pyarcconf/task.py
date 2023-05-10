@@ -1,4 +1,4 @@
-"""Pyarcconf submodule, which provides a task representing class."""
+"""Arcconf Task class"""
 
 
 class Task():

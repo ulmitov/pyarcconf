@@ -1,6 +1,6 @@
-"""Pyarcconf submodule, which provides a logical drive representing class."""
+"""Physical drive \ device class"""
 
-from . import parser
+from . import runner
 from .arcconf import Arcconf
 
 SEPARATOR_SECTION = 64 * '-'
@@ -9,11 +9,11 @@ SEPARATOR_SECTION = 64 * '-'
 class PhysicalDrive():
     """Object which represents a physical drive."""
 
-    def __init__(self, adapter_obj, channel, device, arcconf=None):
+    def __init__(self, controller_obj, channel, device, cmdrunner=None):
         """Initialize a new LogicalDriveSegment object."""
-        self.arcconf = arcconf or Arcconf()
-        self.adapter = adapter_obj
-        self.adapter_id = str(adapter_obj.id)
+        self.runner = cmdrunner or Arcconf()
+        self.controller = controller_obj
+        self.controller_id = str(controller_obj.id)
         self.channel = str(channel).strip()
         self.device = str(device).strip()
         # pystorcli compliance
@@ -25,20 +25,20 @@ class PhysicalDrive():
         return getattr(self, 'raid_level', '')
 
     def _execute(self, cmd, args=[]):
-        """Execute a command using arcconf.
+        """Execute a command
 
         Args:
             args (list):
         Returns:
-            str: arcconf output
+            str: output
         Raises:
             RuntimeError: if command fails
         """
         if cmd == 'GETCONFIG':
-            base_cmd = [cmd, self.adapter_id]
+            base_cmd = [cmd, self.controller_id]
         else:
-            base_cmd = [cmd, self.adapter_id, 'DEVICE', self.channel, self.device]
-        return self.arcconf._execute(base_cmd + args)
+            base_cmd = [cmd, self.controller_id, 'DEVICE', self.channel, self.device]
+        return self.runner._execute(base_cmd + args)
 
     def __repr__(self):
         """Define a basic representation of the class object."""
@@ -59,18 +59,18 @@ class PhysicalDrive():
         section = config or self._get_config()
         section = section.split(SEPARATOR_SECTION)
         for line in section[0].split('\n'):
-            if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_property(line)
+            if runner.SEPARATOR_ATTRIBUTE in line:
+                key, value = runner.convert_property(line)
                 self.__setattr__(key, value)
                 # pystorcli compliance
-                key = parser.convert_key_dict(line)
+                key = runner.convert_key_dict(line)
                 self.facts[key] = value
         if len(section) == 1:
             return
         for idx in range(1, len(section), 2):
-            props = parser.get_properties(section[idx + 1])
+            props = runner.get_properties(section[idx + 1])
             if props:
-                attr = parser.convert_key_attribute(section[idx])
+                attr = runner.convert_key_attribute(section[idx])
                 # pystorcli compliance
                 attr = attr.replace('device_', '')
                 self.__setattr__(attr, props)
@@ -87,7 +87,7 @@ class PhysicalDrive():
 
     def _get_config(self):
         result = self._execute('GETCONFIG', ['PD', self.channel, self.device])[0]
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         return result
 
     def set_state(self, state):
@@ -143,7 +143,7 @@ class PhysicalDrive():
         if rc == 2:
             return {}
         sata = 'SATA' in result
-        result = parser.cut_lines(result, 16 if sata else 15)
+        result = runner.cut_lines(result, 16 if sata else 15)
         data = {}
         #TODO: add sata logic
         if not sata:
@@ -151,9 +151,9 @@ class PhysicalDrive():
                 if 'No device attached' in phy:
                     continue
                 phy = phy.split('\n')
-                _, phyid = parser.convert_property(phy[0])
+                _, phyid = runner.convert_property(phy[0])
                 data[phyid] = {}
                 for attr in phy[7:]:
-                    key, value = parser.convert_property(attr)
+                    key, value = runner.convert_property(attr)
                     data[phyid][key] = value
         return data

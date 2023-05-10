@@ -1,0 +1,49 @@
+SG driver version 3.5.36.
+CLI Version: 4.1.13.31   RaidAPI Version: 5.0.13.1071
+Welcome to RAID Command Line Interface.
+
+> info -o hba
+
+controller ID:                          0
+Product:                             1b4b-9230
+Sub Product:                         1b4b-9230
+Chip revision:                       A1
+slot number:                         0
+Max PCIe speed:                      5Gb/s
+Current PCIe speed:                  5Gb/s
+Max PCIe link:                       2
+Current PCIe link:                   2
+Rom version:                         0.0.0.0000
+Firmware version:                    2.3.99.1009
+Boot loader version:                 2.1.0.1009
+# of ports:                          3
+Buzzer:                              Not supported
+Supported port type:                 SATA 
+Supported RAID mode:                 RAID0 RAID1 JBOD 
+Maximum disk in one VD:              2
+PM:                                  Not supported
+Expander:                            Not supported
+Rebuild:                             Supported
+Background init:                     Not supported
+Sync:                                Not supported
+Migrate:                             Not supported
+Media patrol:                        Supported
+Foreground init:                     Not supported
+Copy back:                           Not supported
+Maximum supported disk:              2
+Maximum supported VD:                1
+Max total blocks:                    128
+Features:                            rebuild,media patrol
+Advanced features:                   event sense code,multi VD,spc 4,image health,timer,ata pass through,oem data
+Advanced features 2:                 scsi pass through,flash
+Max buffer size:                     3
+Stripe size supported:               32K 64K 
+Image health:                        Healthy
+Autoload image health:               Healthy
+Boot loader image health:            Healthy
+Firmware image health:               Healthy
+Boot ROM image health:               Healthy
+HBA info image health:               Healthy
+
+> exit
+

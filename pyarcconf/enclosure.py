@@ -1,4 +1,4 @@
-"""Pyarcconf submodule, which provides a logical drive representing class."""
+"""Enclosure\Expander class"""
 
 from .physical_drive import PhysicalDrive
 
@@ -50,12 +50,12 @@ class Enclosure(PhysicalDrive):
    """
    #TODO: this method is not really needed for now
    def _execute(self, cmd, args=[]):
-      """Execute a command using arcconf.
+      """Execute a command
 
       Args:
          args (list):
       Returns:
-         str: arcconf output
+         str: output
       Raises:
          RuntimeError: if command fails
       """

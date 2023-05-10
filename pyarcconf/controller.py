@@ -1,7 +1,7 @@
-"""Pyarcconf submodule, which provides a raidcontroller representing Adapter class."""
+"""Pyarcconf submodule, which provides a raidcontroller representing controller class."""
 import re
 
-from . import parser
+from . import runner
 from .arcconf import Arcconf
 from .enclosure import Enclosure
 from .array import Array
@@ -11,12 +11,12 @@ from .task import Task
 
 
 class Controller():
-    """Object which represents an adapter."""
+    """Object which represents an controller."""
 
-    def __init__(self, adapter_id, arcconf=None):
-        """Initialize a new Adapter object."""
-        self.id = str(adapter_id)
-        self.arcconf = arcconf or Arcconf()
+    def __init__(self, controller_id, cmdrunner=None):
+        """Initialize a new controller object."""
+        self.id = str(controller_id)
+        self.runner = cmdrunner or Arcconf()
         self.model = ''
         self.mode = ''
         self.channel_description = ''
@@ -44,16 +44,16 @@ class Controller():
         )
 
     def _execute(self, cmd, args=[]):
-        """Execute a command using arcconf.
+        """Execute a command
 
         Args:
             args (list):
         Returns:
-            str: arcconf output
+            str: output
         Raises:
             RuntimeError: if command fails
         """
-        return self.arcconf._execute([cmd, self.id] + args)[0]
+        return self.runner._execute([cmd, self.id] + args)[0]
 
     def initialize(self):
         self.update()
@@ -91,14 +91,14 @@ class Controller():
     @property
     def phyerrorcounters(self):
         result = self._execute('PHYERRORLOG')
-        result = parser.cut_lines(result, 8)
+        result = runner.cut_lines(result, 8)
         data = {}
         for phy in result.split('\n\n'):
             phy = phy.split('\n')
-            _, phyid = parser.convert_property(phy[0])
+            _, phyid = runner.convert_property(phy[0])
             data[phyid] = {}
             for attr in phy[1:]:
-                key, value = parser.convert_property(attr)
+                key, value = runner.convert_property(attr)
                 data[phyid][key] = value
         return data
 
@@ -106,26 +106,26 @@ class Controller():
     def connectors(self):
         data = {}
         result = self._execute('GETCONFIG', ['CN'])
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         for part in result.split('\n\n'):
             lines = part.split('\n')
             cnid = lines[0].split('#')[-1].strip()
             data[cnid] = {}
             for line in lines[1:]:
-                key, value = parser.convert_property(line)
+                key, value = runner.convert_property(line)
                 data[cnid][key] = value
         return data
 
     def update(self):
-        """Parse adapter info"""
+        """Parse controller info"""
         result = self._execute('GETCONFIG', ['AD'])
-        result = parser.cut_lines(result, 4)
-        section = list(filter(None, result.split(parser.SEPARATOR_SECTION)))
+        result = runner.cut_lines(result, 4)
+        section = list(filter(None, result.split(runner.SEPARATOR_SECTION)))
 
         info = section[0]
         for line in info.split('\n'):
-            if parser.SEPARATOR_ATTRIBUTE in line:
-                key, value = parser.convert_property(line)
+            if runner.SEPARATOR_ATTRIBUTE in line:
+                key, value = runner.convert_property(line)
 
                 if key == 'pci_address':
                     #changing from 0:d9:0:0 to lspci format 0:d9:00.0
@@ -137,7 +137,7 @@ class Controller():
                 
                 # pystorcli compliance
                 self.__setattr__(key.replace('controller_', ''), value)
-                key = parser.convert_key_dict(line)
+                key = runner.convert_key_dict(line)
                 # TODO: did not decide about naming, adding both. the second one is better for pystorcli
                 self.facts[key] = value
                 self.facts[key.replace('Controller ', '')] = value
@@ -145,20 +145,20 @@ class Controller():
         for idx in range(1, len(section), 2):
             if not section[idx].replace(' ', ''):
                 print('NO SECTION') # TODO: remove it later
-            attr = parser.convert_key_dict(section[idx])
+            attr = runner.convert_key_dict(section[idx])
             # pystorcli compliance
             attr = attr.replace('Information', '')
             attr = attr.replace('Controller', '').strip()
             if 'temperature sensors' in attr.lower():
                 props = {}
                 for sub_section in section[idx + 1].split('\n\n'):
-                    sub_props = parser.get_properties(sub_section)
+                    sub_props = runner.get_properties(sub_section)
                     if sub_props:
                         props[sub_props['Sensor ID']] = sub_props
             else:
-                props = parser.get_properties(section[idx + 1])
+                props = runner.get_properties(section[idx + 1])
             if props:
-                self.__setattr__(parser.convert_key_attribute(attr), props)
+                self.__setattr__(runner.convert_key_attribute(attr), props)
                 # pystorcli compliance
                 self.facts[attr] = props
 
@@ -168,16 +168,16 @@ class Controller():
             versions = section[4]
             battery = section[6]
             for line in raid_props.split('\n'):
-                if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_property(line)
+                if runner.SEPARATOR_ATTRIBUTE in line:
+                    key, value = runner.convert_property(line)
                     self.raid_properties[key] = value
             for line in versions.split('\n'):
-                if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_property(line)
+                if runner.SEPARATOR_ATTRIBUTE in line:
+                    key, value = runner.convert_property(line)
                     self.versions[key] = value
             for line in battery.split('\n'):
-                if parser.SEPARATOR_ATTRIBUTE in line:
-                    key, value = parser.convert_property(line)
+                if runner.SEPARATOR_ATTRIBUTE in line:
+                    key, value = runner.convert_property(line)
                     self.battery[key] = value
         # TODO: remove it later
         print('print(self.facts):')
@@ -192,13 +192,13 @@ class Controller():
         if 'No logical devices configured' in result:
             return []
         self.lds = []
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         for part in result.split('\n\n'):
-            sections = part.split(parser.SEPARATOR_SECTION)
+            sections = part.split(runner.SEPARATOR_SECTION)
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = LogicalDrive(self, ldid, arcconf=self.arcconf)
+            ld = LogicalDrive(self, ldid, runner=self.runner)
             ld.update(lines)
 
             if 'Logical Device segment information' in part:
@@ -228,13 +228,13 @@ class Controller():
         if 'No arrays configured' in result:
             return []
         self.arrays = []
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         for part in result.split('\n\n'):
-            sections = part.split(parser.SEPARATOR_SECTION)
+            sections = part.split(runner.SEPARATOR_SECTION)
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = Array(self, ldid, arcconf=self.arcconf)
+            ld = Array(self, ldid, runner=self.runner)
             ld.update(lines)
             self.arrays.append(ld)
         return self.arrays
@@ -244,7 +244,7 @@ class Controller():
         """
         self._drives = []
         result = self._execute('GETCONFIG', ['PD'])
-        result = parser.cut_lines(result, 4)
+        result = runner.cut_lines(result, 4)
         result = re.split('.*Channel #\d+:', result)
         result = [re.split('.*Device #\d+\n', r) for r in result]
         result = [item for sublist in result for item in sublist]
@@ -259,12 +259,12 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                enc = Enclosure(self, channel, device, arcconf=self.arcconf)
+                enc = Enclosure(self, channel, device, runner=self.runner)
                 self.enclosures.append(enc)
                 enc.update(lines)
                 continue
 
-            drive = PhysicalDrive(self, channel, device, arcconf=self.arcconf)
+            drive = PhysicalDrive(self, channel, device, runner=self.runner)
             drive.update(lines)
             self._drives.append(drive)
         return self._drives
@@ -275,11 +275,11 @@ class Controller():
         if 'Current operation              : None' in result:
             return []
         self.tasks = []
-        result = parser.cut_lines(result, 1)
+        result = runner.cut_lines(result, 1)
         for part in result.split('\n\n'):
             task = Task()
             for line in part.split('\n')[1:]:
-                key, value = parser.convert_property(line)
+                key, value = runner.convert_property(line)
                 task.__setattr__(key, value)
             self.tasks.append(task)
         return self.tasks
