@@ -26,7 +26,7 @@ jobs:
           --user
       - name: Build the test wheel and a source tarball
         run: >-
-          PACKAGE_NAME=pystorcli2 python -m
+          PACKAGE_NAME=pyarcconf python -m
           build
           --sdist
           --wheel
