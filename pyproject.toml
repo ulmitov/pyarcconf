@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm[toml]"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pyarcconf"]
+
+[tool.setuptools_scm]
+write_to = "pyarcconf/version.py"
+local_scheme = "no-local-version"
+
+
+[project]
+name = 'pyarcconf'
+description = 'Python3 library for the arrconf tool.'
+
+authors = [
+      # Version 2 current maintainer & author
+      { name = "ulmitov", email = "d.ulybin@yadro.com" },
+      # Original author
+      { name = "Markus Freitag", email = "fmarkus@mailbox.org" },
+]
+license = { text = "MIT" }
+classifiers = [
+      "Programming Language :: Python :: 3",
+      'Intended Audience :: Developers',
+      'Intended Audience :: Information Technology',
+      'Intended Audience :: System Administrators',
+      'License :: OSI Approved :: BSD License',
+      'Natural Language :: English',
+      'Operating System :: POSIX',
+      'Topic :: System :: Hardware :: Hardware Drivers',
+      'Topic :: System :: Installation/Setup',
+      'Topic :: Software Development :: Libraries :: Python Modules',
+      'Programming Language :: Python',
+      'Development Status :: 3 - Alpha',
+]
+requires-python = ">=3.8"
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+"Homepage" = "https://github.com/ulmitov/pyarcconf"
+
+[project.optional-dependencies]
+# Requirements only needed for development
+dev = ['pytest', 'pytest-cov', 'coveralls', 'pdoc', 'mypy']
