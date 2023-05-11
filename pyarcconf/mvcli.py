@@ -324,7 +324,7 @@ class Controller():
         if type(drives) != str:
             if type(drives[0]) in [str, int]:
                 # list of ids
-                drives = ' '.join(drives)
+                drives = ','.join(drives)
             else:
                 # list of drive objects
                 drv_list = []
