@@ -315,24 +315,25 @@ class Controller():
             (None): no virtual drive created with name
             (:obj:virtualdrive.VirtualDrive)
         """
-        args = ['logicaldrive']
+        args = ['create', '-o', 'vd']
         if name:
             args += ['-n', f'"{name}"']
         if strip:
             args += ['-b', strip]
-        args.append(str(raid).lower().replace('raid', ''))
+        args += ['-r', str(raid).lower().replace('raid', '')]
         if type(drives) != str:
-            if type(drives[0]) == str:
-                # list of ['channel', 'device'] numbers
+            if type(drives[0]) in [str, int]:
+                # list of ids
                 drives = ' '.join(drives)
             else:
                 # list of drive objects
                 drv_list = []
                 for d in drives:
                     drv_list += [d.id]
-                drives = ' '.join(drv_list)
-        args.append(drives)
-        _, rc = self._execute('create', args + ['--waiveconfirmation'], rc=True)
+                drives = ','.join(drv_list)
+        args += ['-d', drives]
+        args.append('--waiveconfirmation')
+        _, rc = self._execute(args, rc=True)
         if rc:
             print(f'create {args} command failed')
             return
