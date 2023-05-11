@@ -1,8 +1,7 @@
-"""Arcconf Task class"""
 
 
 class Task():
-    """Object which represents a task."""
+    """Object which represents an Arcconf Task."""
 
     def __init__(self):
         """Initialize a new Task object."""

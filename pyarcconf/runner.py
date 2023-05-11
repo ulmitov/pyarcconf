@@ -55,7 +55,16 @@ def cut_lines(output, start, end=0):
     return output if islist else '\n'.join(output)
 
 
-def sanitize_stdout(output, last_line=True):
+def sanitize_stdout(output, last_line=''):
+    """Remove blank lines from end of output,
+    including a specific last_line if given
+
+    Args:
+        output (str): comand output
+        last_line (str): a line that supposed to be in the end of output
+    Return:
+        str: command output up to last line, without blank lines in the end
+    """
     islist = type(output) == list
     output = output if islist else output.split('\n')
     while output and not output[-1]:

@@ -1,5 +1,3 @@
-"""Logical (Virtual) drive class"""
-
 from . import runner
 from .arcconf import Arcconf
 from .physical_drive import PhysicalDrive
@@ -14,40 +12,14 @@ class LogicalDrive():
         self.controller = controller_obj
         self.controller_id = str(controller_obj.id)
         self.id = str(id_)
-        self.raid_level = None
         self.size = None
-
-        # those are not used and naming is old
-        self.logical_device_name = None
-        self.status_of_logical_device = None
-        self.read_cache_mode = None
-        self.write_cache_mode = None
-        self.write_cache_setting = None
-        self.partitioned = None
-        self.protected_by_hot_spare = None
-        self.bootable = None
-        self.failed_stripes = None
-        self.power_settings = None
-        self.segments = []
 
         # pystorcli compliance
         self.facts = {}
-    # pystorcli compliance
-    @property
-    def raid(self):
-        return getattr(self, 'raid_level', '')
-    # pystorcli compliance
-    @property
-    def os_name(self):
-        return getattr(self, 'disk_name', '')
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return '<LD {} | Raid{} {}>'.format(
-            self.id,
-            self.raid_level,
-            self.size
-        )
+        return '<LD {} | Raid:{} {}>'.format(self.id, self.raid, self.size)
 
     def _execute(self, cmd, args=[]):
         """Execute a command
@@ -68,9 +40,9 @@ class LogicalDrive():
     def update(self, config=''):
         if config and type(config) == list:
             config = '\n'.join(config)
-        config = config or self._get_config()
-        config = config.split(runner.SEPARATOR_SECTION)[0]
-        for line in config.split('\n'):
+        section = config or self._get_config()
+        section = section.split(runner.SEPARATOR_SECTION)
+        for line in section[0].split('\n'):
             if runner.SEPARATOR_ATTRIBUTE in line:
                 key, value = runner.convert_property(line)
                 self.__setattr__(key, value)
@@ -82,13 +54,21 @@ class LogicalDrive():
         result = self._execute('GETCONFIG', ['LD', self.id])[0]
         result = runner.cut_lines(result, 4)
         return result
-    
+
+    # pystorcli compliance
+    @property
+    def raid(self):
+        return getattr(self, 'raid_level', '')
+    # pystorcli compliance
+    @property
+    def os_name(self):
+        return getattr(self, 'disk_name', '')
+
     @property
     def drives(self):
         config = self._get_config()
         config = config.split(runner.SEPARATOR_SECTION)[-1]
         drives = []
-        print(config)
         for line in config.split('\n'):
             if not line:
                 continue
@@ -114,7 +94,7 @@ class LogicalDrive():
             result = runner.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Logical Device Name'):
-                    self.logical_device_name = line.split(':')[1].strip().lower()
+                    self.logical_device_name = runner.convert_property(line)[1]
             return True
         return False
 
@@ -128,16 +108,16 @@ class LogicalDrive():
         """
         result, rc = self._execute('SETSTATE', [state])
         if not rc:
-            result = self._execute('GETCONFIG', ['LD', self.id])
-            result = runner.cut_lines(result, 4)
-            for line in result.split('\n'):
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
+            for line in lines:
                 if line.strip().startswith('Status'):
-                    self.status_of_logical_device = line.split(':')[1].strip().lower()
+                    self.status_of_logical_device = runner.convert_property(line)[1]
             return True
         return False
 
     def set_cache(self, mode):
-        """Set the cache for the logical drive.
+        """Set the cache for the drive.
         ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
@@ -151,12 +131,12 @@ class LogicalDrive():
         Returns:
             bool: command result
         """
-        result, rc = self._execute('SETCACHE', [mode])
+        result, rc = self._execute('SETCACHE', [mode, 'noprompt'])
         if not rc:
-            result = self._execute('GETCONFIG', ['LD', self.id])
-            result = runner.cut_lines(result, 4)
-            for line in result.split('\n'):
-                if line.split(':')[0].strip() in ['Read-cache', 'Write-cache']:
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
+            for line in lines:
+                if line.split(runner.SEPARATOR_ATTRIBUTE)[0].strip() in ['Read-cache', 'Write-cache']:
                     key, value = runner.convert_property(line)
                     self.__setattr__(key, value)
             return True
@@ -177,6 +157,6 @@ class LogicalDriveSegment():
         self.size = size
         self.enclosure = enclosure
 
-    def __str__(self):
+    def __repr__(self):
         """Build a string formatted object representation."""
-        return '{},{} {} {}'.format(self.channel, self.port, self.state, self.serial)
+        return '<LD segment {},{} {} {}>'.format(self.channel, self.port, self.state, self.serial)

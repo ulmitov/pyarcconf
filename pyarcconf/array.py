@@ -1,5 +1,3 @@
-"""Logical (Virtual) array class"""
-
 from . import runner
 from .arcconf import Arcconf
 from .physical_drive import PhysicalDrive
@@ -9,7 +7,7 @@ class Array():
     """Object which represents an Array of logical\physical drives"""
 
     def __init__(self, controller_obj, id_, cmdrunner=None):
-        """Initialize a new LogicalDrive object."""
+        """Initialize a new Array object."""
         self.runner = cmdrunner or Arcconf()
         self.controller = controller_obj
         self.controller_id = str(controller_obj.id)
@@ -17,6 +15,14 @@ class Array():
 
         # pystorcli compliance
         self.facts = {}
+
+    def __repr__(self):
+        """Define a basic representation of the class object."""
+        return '<AR {} | {} {}>'.format(
+            self.id,
+            getattr(self, 'interface', ''),
+            getattr(self, 'total_size', '')
+        )
 
     def _execute(self, cmd, args=[]):
         """Execute a command
@@ -31,23 +37,15 @@ class Array():
         if cmd == 'GETCONFIG':
             base_cmd = [cmd, self.controller_id]
         else:
-            base_cmd = [cmd, self.controller_id, 'ARRAY', self.id_]
+            base_cmd = [cmd, self.controller_id, 'ARRAY', self.id]
         return self.runner._execute(base_cmd + args)
-
-    def __repr__(self):
-        """Define a basic representation of the class object."""
-        return '<AR {} | {} {}>'.format(
-            self.id,
-            getattr(self, 'interface', ''),
-            getattr(self, 'total_size', '')
-        )
 
     def update(self, config=''):
         if config and type(config) == list:
             config = '\n'.join(config)
-        config = config or self._get_config()
-        config = config.split(runner.SEPARATOR_SECTION)[0]
-        for line in config.split('\n'):
+        section = config or self._get_config()
+        section = section.split(runner.SEPARATOR_SECTION)
+        for line in section[0].split('\n'):
             if runner.SEPARATOR_ATTRIBUTE in line:
                 key, value = runner.convert_property(line)
                 self.__setattr__(key, value)
@@ -104,7 +102,7 @@ class Array():
             result = runner.cut_lines(result, 4)
             for line in result.split('\n'):
                 if line.strip().startswith('Logical Device Name'):
-                    self.logical_device_name = line.split(':')[1].strip().lower()
+                    self.logical_device_name = runner.convert_property(line)[1]
             return True
         return False
 
@@ -118,16 +116,16 @@ class Array():
         """
         result, rc = self._execute('SETSTATE', [state])
         if not rc:
-            result = self._execute('GETCONFIG', ['LD', self.id])
-            result = runner.cut_lines(result, 4)
-            for line in result.split('\n'):
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
+            for line in lines:
                 if line.strip().startswith('Status'):
-                    self.status_of_logical_device = line.split(':')[1].strip().lower()
+                    self.status_of_logical_device = runner.convert_property(line)[1]
             return True
         return False
 
     def set_cache(self, mode):
-        """Set the cache for the logical drive.
+        """Set the cache for the drive.
         ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
@@ -141,12 +139,12 @@ class Array():
         Returns:
             bool: command result
         """
-        result, rc = self._execute('SETCACHE', [mode])
+        result, rc = self._execute('SETCACHE', [mode, 'noprompt'])
         if not rc:
-            result = self._execute('GETCONFIG', ['LD', self.id])
-            result = runner.cut_lines(result, 4)
-            for line in result.split('\n'):
-                if line.split(':')[0].strip() in ['Read-cache', 'Write-cache']:
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
+            for line in lines:
+                if line.split(runner.SEPARATOR_ATTRIBUTE)[0].strip() in ['Read-cache', 'Write-cache']:
                     key, value = runner.convert_property(line)
                     self.__setattr__(key, value)
             return True

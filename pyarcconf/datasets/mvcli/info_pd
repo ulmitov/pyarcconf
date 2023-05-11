@@ -1,0 +1,25 @@
+
+Physical Disk Information
+----------------------------
+Adapter:             0
+PD ID:               1
+Type:                SATA PD
+Linked at:           HBA port 1
+Size:                117220824 K
+Write cache:         not supported
+SMART:               supported (on)
+NCQ:                 supported (on)
+48 bits LBA:         supported
+supported speed:     1.5 3 6 Gb/s
+Current speed:       6 Gb/s
+model:               Apacer AST280 120GB                     
+Serial:              MMYE3021500000009068
+Firmware version:    R0412A0 
+Locate LED status:   Not Support
+Running OS:          no
+SSD Type:            SSD
+block ids:           
+PD valid size:       117155288 K
+
+
+Total # of PD:       1

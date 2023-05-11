@@ -16,7 +16,7 @@ https://wiki.miko.ru/kb:sysadm:arcconf
 from . import runner
 
 
-class Arcconf(runner.CMDRunner):
+class Arcconf():
     """Arcconf wrapper class."""
     def __init__(self, cmdrunner=None):
         self.runner = cmdrunner or runner.CMDRunner()

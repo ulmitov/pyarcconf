@@ -1,4 +1,3 @@
-"""Pyarcconf submodule, which provides a raidcontroller representing controller class."""
 import re
 
 from . import runner
@@ -11,7 +10,7 @@ from .task import Task
 
 
 class Controller():
-    """Object which represents an controller."""
+    """Object which represents a controller."""
 
     def __init__(self, controller_id, cmdrunner=None):
         """Initialize a new controller object."""
@@ -25,11 +24,6 @@ class Controller():
         self.lds = []
         self.enclosures = []
         self.tasks = []
-
-        #TODO: those really needed?
-        self.raid_properties = {}
-        self.versions = {}
-        self.battery = {}
 
         # pystorcli compliance
         self.facts = {}
@@ -162,28 +156,14 @@ class Controller():
                 # pystorcli compliance
                 self.facts[attr] = props
 
-        if not self.hba:
-            #TODO: original pyarcconf code, is it needed?
-            raid_props = section[2]
-            versions = section[4]
-            battery = section[6]
-            for line in raid_props.split('\n'):
-                if runner.SEPARATOR_ATTRIBUTE in line:
-                    key, value = runner.convert_property(line)
-                    self.raid_properties[key] = value
-            for line in versions.split('\n'):
-                if runner.SEPARATOR_ATTRIBUTE in line:
-                    key, value = runner.convert_property(line)
-                    self.versions[key] = value
-            for line in battery.split('\n'):
-                if runner.SEPARATOR_ATTRIBUTE in line:
-                    key, value = runner.convert_property(line)
-                    self.battery[key] = value
         # TODO: remove it later
         print('print(self.facts):')
         print(self.facts)
 
     def get_lds(self):
+        return self.get_vds()
+
+    def get_vds(self):
         """Parse the info about logical drives."""
         result = self._execute('GETCONFIG', ['LD'])
         if 'not supported' in result:
@@ -198,7 +178,7 @@ class Controller():
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = LogicalDrive(self, ldid, runner=self.runner)
+            ld = LogicalDrive(self, ldid, cmdrunner=self.runner)
             ld.update(lines)
 
             if 'Logical Device segment information' in part:
@@ -234,7 +214,7 @@ class Controller():
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = Array(self, ldid, runner=self.runner)
+            ld = Array(self, ldid, cmdrunner=self.runner)
             ld.update(lines)
             self.arrays.append(ld)
         return self.arrays
@@ -259,12 +239,12 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                enc = Enclosure(self, channel, device, runner=self.runner)
+                enc = Enclosure(self, channel, device, cmdrunner=self.runner)
                 self.enclosures.append(enc)
                 enc.update(lines)
                 continue
 
-            drive = PhysicalDrive(self, channel, device, runner=self.runner)
+            drive = PhysicalDrive(self, channel, device, cmdrunner=self.runner)
             drive.update(lines)
             self._drives.append(drive)
         return self._drives
@@ -321,11 +301,11 @@ class Controller():
         result = self._execute('SETSTATSDATACOLLECTION', ['Enable' if enable else 'Disable'])
         return result
 
-    # pystorcli compliance
-    def create_vd(self, *args, **kwargs):
-        return self.create_ld(*args, **kwargs)
+    def create_ld(self, *args, **kwargs):
+        return self.create_vd(*args, **kwargs)
 
-    def create_ld(self, name, raid, drives, strip: str = '64', size: str = 'MAX'):
+    # pystorcli compliance
+    def create_vd(self, name, raid, drives, strip: str = '64', size: str = 'MAX'):
         """
         Args:
             name (str): virtual drive name

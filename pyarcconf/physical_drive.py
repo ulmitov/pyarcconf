@@ -1,5 +1,3 @@
-"""Physical drive \ device class"""
-
 from . import runner
 from .arcconf import Arcconf
 
@@ -10,20 +8,29 @@ class PhysicalDrive():
     """Object which represents a physical drive."""
 
     def __init__(self, controller_obj, channel, device, cmdrunner=None):
-        """Initialize a new LogicalDriveSegment object."""
+        """Initialize a new Drive object."""
         self.runner = cmdrunner or Arcconf()
         self.controller = controller_obj
         self.controller_id = str(controller_obj.id)
         self.channel = str(channel).strip()
         self.device = str(device).strip()
+
         # pystorcli compliance
         self.facts = {}
 
-    # pystorcli compliance
-    @property
-    def encl_id(self):
-        return getattr(self, 'raid_level', '')
-
+    def __repr__(self):
+        """Define a basic representation of the class object."""
+        return '<PD Channel #{},Device #{}| {}>'.format(
+            self.channel,
+            self.device,
+            ' '.join([
+                getattr(self, 'vendor', ''),
+                getattr(self, 'model', ''),
+                getattr(self, 'serial', ''),
+                getattr(self, 'name', '')
+            ])
+        )
+    
     def _execute(self, cmd, args=[]):
         """Execute a command
 
@@ -40,19 +47,6 @@ class PhysicalDrive():
             base_cmd = [cmd, self.controller_id, 'DEVICE', self.channel, self.device]
         return self.runner._execute(base_cmd + args)
 
-    def __repr__(self):
-        """Define a basic representation of the class object."""
-        return '<PD Channel #{},Device #{}| {}>'.format(
-            self.channel,
-            self.device,
-            ' '.join([
-                getattr(self, 'vendor', ''),
-                getattr(self, 'model', ''),
-                getattr(self, 'serial', ''),
-                getattr(self, 'name', '')
-            ])
-        )
-    
     def update(self, config=''):
         if config and type(config) == list:
             config = '\n'.join(config)
@@ -74,6 +68,11 @@ class PhysicalDrive():
                 # pystorcli compliance
                 attr = attr.replace('device_', '')
                 self.__setattr__(attr, props)
+
+    # pystorcli compliance
+    @property
+    def encl_id(self):
+        return getattr(self, 'raid_level', '')
 
     # pysmart compliance
     @property
@@ -104,16 +103,16 @@ class PhysicalDrive():
         """
         result, rc = self._execute('SETSTATE', [state])
         if not rc:
-            conf = self._get_config()
-            lines = list(filter(None, conf.split('\n')))
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
             for line in lines:
                 if line.strip().startswith('State'):
-                    self.state = line.split(':')[1].strip().lower()
+                    self.state = runner.convert_property(line)[1]
                     return True
         return False
 
     def set_cache(self, mode):
-        """Set the cache for the physical drive.
+        """Set the cache for the drive.
         ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
         ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
@@ -129,11 +128,12 @@ class PhysicalDrive():
         """
         result, rc = self._execute('SETCACHE', [mode, 'noprompt'])
         if not rc:
-            conf = self._get_config()
-            lines = list(filter(None, conf.split('\n')))
+            result = self._get_config()
+            lines = list(filter(None, result.split('\n')))
             for line in lines:
-                if line.strip().startswith('Write Cache'):
-                    self.write_cache = line.split(':')[1].strip().lower()
+                if line.split(runner.SEPARATOR_ATTRIBUTE)[0].strip() in['Write Cache']:
+                    key, value = runner.convert_property(line)
+                    self.__setattr__(key, value)
                     return True
         return False
 

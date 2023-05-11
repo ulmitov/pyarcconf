@@ -1,5 +1,3 @@
-"""Enclosure\Expander class"""
-
 from .physical_drive import PhysicalDrive
 
 
