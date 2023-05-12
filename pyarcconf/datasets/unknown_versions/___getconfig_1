@@ -1,0 +1,124 @@
+Controllers found: 1
+
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                   : Okay
+   Channel description                 : SAS/SATA
+   Controller Model                    : IBM ServeRAID 8k-l  
+   Controller Serial Number            : 401DD9D
+   Physical Slot                       : 0
+   Installed memory                    : 32 MB
+   Copyback                            : Disabled
+   Data scrubbing                      : Enabled
+   Defunct disk drive count            : 0
+   Logical drives/Offline/Critical     : 1/0/0
+   ---------------------------------------------------
+   Controller Version Information
+   ---------------------------------------------------
+   BIOS                                : 5.2-0 (11835)
+   Firmware                            : 5.2-0 (11835)
+   Driver                              : 1.1-5 (2412)
+   Boot Flash                          : 5.1-0 (11835)
+   ---------------------------------------------------
+   Controller Battery Information
+   ---------------------------------------------------
+   Status                              : Not Installed
+   ---------------------------------------------------
+   Controller Vital Product Data
+   ---------------------------------------------------
+   VPD Assigned#                       : 25R8078
+   EC Version#                         : J85097A
+   Controller FRU#                     : 25R8079
+
+----------------------------------------------------------------------
+Logical drive information
+----------------------------------------------------------------------
+Logical drive number 1
+   Logical drive name                  : 
+   RAID level                          : 1
+   Status of logical drive             : Okay
+   Size                                : 285989 MB
+   Write-cache mode                    : Not supported
+   Partitioned                         : Yes
+   Number of chunks                    : 2
+   Drive(s) (Channel,Device)           : 0,0 0,1 
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                         : Online
+         Supported                     : Yes
+         Transfer Speed                : SAS 3.0 Gb/s
+         Reported Channel,Device       : 0,0
+         Reported Enclosure,Slot       : 0,0
+         Vendor                        : IBM-ESXS
+         Model                         : ST3300555SS
+         Firmware                      : BA33
+         Serial number                 : 3LM0QZVP
+         World-wide name               : 5000C50003C6ADC0
+         Size                          : 286102 MB
+         Write Cache                   : Enabled (write-back)
+         FRU                           : 39R7356
+         PFA                           : No
+      Device #1
+         Device is a Hard drive
+         State                         : Online
+         Supported                     : Yes
+         Transfer Speed                : SAS 3.0 Gb/s
+         Reported Channel,Device       : 0,1
+         Reported Enclosure,Slot       : 0,1
+         Vendor                        : IBM-ESXS
+         Model                         : ST3300555SS
+         Firmware                      : BA33
+         Serial number                 : 3LM0SJ4Z
+         World-wide name               : 5000C50003C5EB24
+         Size                          : 286102 MB
+         Write Cache                   : Enabled (write-back)
+         FRU                           : 39R7356
+         PFA                           : No
+      Device #2
+         Device is a Hard drive
+         State                         : Ready
+         Supported                     : Yes
+         Transfer Speed                : SAS 3.0 Gb/s
+         Reported Channel,Device       : 0,2
+         Reported Enclosure,Slot       : 0,2
+         Vendor                        : IBM-ESXS
+         Model                         : ST3450856SS
+         Firmware                      : BA47
+         Serial number                 : 3QQ109DE
+         World-wide name               : 5000C500127EE644
+         Size                          : 429247 MB
+         Write Cache                   : Unknown
+         FRU                           : 46M7030
+         PFA                           : No
+      Device #3
+         Device is a Hard drive
+         State                         : Ready
+         Supported                     : Yes
+         Transfer Speed                : SAS 3.0 Gb/s
+         Reported Channel,Device       : 0,3
+         Reported Enclosure,Slot       : 0,3
+         Vendor                        : IBM-ESXS
+         Model                         : ST3450856SS
+         Firmware                      : BA47
+         Serial number                 : 3QQ0ZDH1
+         World-wide name               : 5000C500126D3238
+         Size                          : 429247 MB
+         Write Cache                   : Unknown
+         FRU                           : 46M7030
+         PFA                           : No
+      Device #4
+         Device is an Enclosure
+            Reported Channel,Device    : 2,0
+            Type                       : SES2
+            Vendor                     : IBM-ESXS
+            Model                      : VSC7160
+            Firmware                   : 1.06
+         Status of Enclosure
+            Temperature status         : Normal
+
+Command completed successfully.

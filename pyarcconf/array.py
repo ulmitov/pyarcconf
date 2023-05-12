@@ -1,16 +1,12 @@
 from . import runner
-from .arcconf import Arcconf
-from .physical_drive import PhysicalDrive
 
 
 class Array():
     """Object which represents an Array of logical\physical drives"""
 
-    def __init__(self, controller_obj, id_, cmdrunner=None):
-        """Initialize a new Array object."""
-        self.runner = cmdrunner or Arcconf()
+    def __init__(self, controller_obj, id_):
+        """Initialize a new object."""
         self.controller = controller_obj
-        self.controller_id = str(controller_obj.id)
         self.id = str(id_)
 
         # pystorcli compliance
@@ -21,7 +17,7 @@ class Array():
         return '<AR {} | {} {}>'.format(
             self.id,
             getattr(self, 'interface', ''),
-            getattr(self, 'total_size', '')
+            self.capacity
         )
 
     def _execute(self, cmd, args=[]):
@@ -31,14 +27,15 @@ class Array():
             args (list):
         Returns:
             str: output
-        Raises:
-            RuntimeError: if command fails
         """
-        if cmd == 'GETCONFIG':
-            base_cmd = [cmd, self.controller_id]
-        else:
-            base_cmd = [cmd, self.controller_id, 'ARRAY', self.id]
-        return self.runner._execute(base_cmd + args)
+        if cmd.upper().strip() != 'GETCONFIG':
+            args = ['ARRAY', self.id] + (args or [])
+        return self.controller._exec(cmd, args)
+
+    def _get_config(self):
+        result = self._execute('GETCONFIG', ['AR', self.id])[0]
+        result = runner.cut_lines(result, 4)
+        return result
 
     def update(self, config=''):
         if config and type(config) == list:
@@ -52,101 +49,49 @@ class Array():
                 # pystorcli compliance
                 key = runner.convert_key_dict(line)
                 self.facts[key] = value
+        # skipping other sections since they are parsed in self.drives and self.vds
 
-    def _get_config(self):
-        result = self._execute('GETCONFIG', ['AR', self.id])[0]
-        result = runner.cut_lines(result, 4)
-        return result
-    
     @property
     def drives(self):
         config = self._get_config()
         config = config.split(runner.SEPARATOR_SECTION)[-1]
         drives = []
         for line in config.split('\n'):
-            if not line:
-                continue
-            serial = line.split(')')[1].strip()
-            # TODO: create new objects instead of getting them from the controller ?
-            for d in self.controller.drives:
-                if serial == d.serial:
-                    d.update()
-                    drives.append(d)
+            if line:
+                serial = line.split(')')[1].strip()
+                # TODO: create new objects instead of getting them from the controller ?
+                for d in self.controller.drives:
+                    if serial == d.serial:
+                        d.update()
+                        drives.append(d)
         return drives
     
+    # pysmart compliance
     @property
-    def lgs(self):
+    def size(self):
+        return getattr(self, 'total_size', '')
+    
+    # pysmart compliance
+    @property
+    def capacity(self):
+        return runner.format_size(getattr(self, 'size', ''))
+
+    @property
+    def lds(self):
+        return self.vds
+
+    @property
+    def vds(self):
         config = self._get_config()
         config = config.split(runner.SEPARATOR_SECTION)[-4]
         drives = []
+        print(config)
         for line in config.split('\n'):
-            serial = line.split(runner.SEPARATOR_ATTRIBUTE)[0].strip()
-            # TODO: create new objects instead of getting them from the controller ?
-            for d in self.controller.drives:
-                if serial == d.serial:
-                    d.update()
-                    drives.append(d)
+            if line:
+                name = line.split(')')[1].strip()
+                # TODO: create new objects instead of getting them from the controller ?
+                for d in self.controller.get_vds():
+                    if name == d.name:
+                        d.update()
+                        drives.append(d)
         return drives
-
-    def set_name(self, name):
-        """Set the name for the logical drive.
-
-        Args:
-            name (str): new name
-        Returns:
-            bool: command result
-        """
-        result, rc = self._execute('SETNAME', [name])
-        if not rc:
-            result = self._execute('GETCONFIG', ['LD', self.id])
-            result = runner.cut_lines(result, 4)
-            for line in result.split('\n'):
-                if line.strip().startswith('Logical Device Name'):
-                    self.logical_device_name = runner.convert_property(line)[1]
-            return True
-        return False
-
-    def set_state(self, state='OPTIMAL'):
-        """Set the state for the logical drive:
-
-        Args:
-            state (str): new state
-        Returns:
-            bool: command result
-        """
-        result, rc = self._execute('SETSTATE', [state])
-        if not rc:
-            result = self._get_config()
-            lines = list(filter(None, result.split('\n')))
-            for line in lines:
-                if line.strip().startswith('Status'):
-                    self.status_of_logical_device = runner.convert_property(line)[1]
-            return True
-        return False
-
-    def set_cache(self, mode):
-        """Set the cache for the drive.
-        ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
-        ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
-        ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
-        ARCCONF SETCACHE <Controller#> WAITFORCACHEROOM <enable | disable>
-        ARCCONF SETCACHE <Controller#> NOBATTERYWRITECACHE <enable | disable>
-        ARCCONF SETCACHE <Controller#> WRITECACHEBYPASSTHRESHOLD <threshold size>
-        ARCCONF SETCACHE <Controller#> RECOVERCACHEMODULE
-
-        Args:
-            mode (str): new mode
-        Returns:
-            bool: command result
-        """
-        result, rc = self._execute('SETCACHE', [mode, 'noprompt'])
-        if not rc:
-            result = self._get_config()
-            lines = list(filter(None, result.split('\n')))
-            for line in lines:
-                if line.split(runner.SEPARATOR_ATTRIBUTE)[0].strip() in ['Read-cache', 'Write-cache']:
-                    key, value = runner.convert_property(line)
-                    self.__setattr__(key, value)
-            return True
-        return False
-

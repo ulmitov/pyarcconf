@@ -1,12 +1,29 @@
 import re
 
 from . import runner
-from .arcconf import Arcconf
-from .enclosure import Enclosure
 from .array import Array
-from .logical_drive import LogicalDrive, LogicalDriveSegment
+from .enclosure import Enclosure
+from .logical_drive import LogicalDrive
 from .physical_drive import PhysicalDrive
 from .task import Task
+
+
+def get_controllers(arcconf_runner=None):
+    """Get all controller objects for further interaction.
+    Args:
+        arcconf_runner: runner object
+    Return:
+        list: list of controller objects.
+    """
+    arcconf_runner = arcconf_runner or runner.CMDRunner()
+    res = arcconf_runner.run([arcconf_runner.path, 'LIST'])[0]
+    res = runner.sanitize_stdout(res, 'Command ')
+    if not res:
+        return []
+    res = runner.cut_lines(res, 6)
+    res = list(filter(None, res.split('\n')))
+    ids = [line.split(':')[0].strip().split()[1] for line in res]
+    return [Controller(i, arcconf_runner) for i in ids]
 
 
 class Controller():
@@ -15,13 +32,10 @@ class Controller():
     def __init__(self, controller_id, cmdrunner=None):
         """Initialize a new controller object."""
         self.id = str(controller_id)
-        self.runner = cmdrunner or Arcconf()
-        self.model = ''
-        self.mode = ''
-        self.channel_description = ''
+        self.runner = cmdrunner or runner.CMDRunner()
 
         self._drives = []
-        self.lds = []
+        self.vds = []
         self.enclosures = []
         self.tasks = []
 
@@ -33,13 +47,21 @@ class Controller():
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return '<Controller{} | {} {} {}>'.format(
-            self.id, self.mode, self.model, self.channel_description
+        return '<Controller {} | {} {} {}>'.format(
+            self.id,
+            getattr(self, 'mode', ''),
+            getattr(self, 'model', ''),
+            getattr(self, 'channel_description', ''),
         )
 
-    def _execute(self, cmd, args=[]):
-        """Execute a command
-
+    def _exec(self, cmd, args=None):
+        """Generic Execute a command with runner
+        Return codes:
+        0x00: SUCCESS
+        0x01: FAILURE - The requested command failed
+        0x02: ABORT - The command was aborted because parameters failed validation
+        0x03: INVALID_ARGUMENTS - The arguments are incorrect. (Displays COMMAND help)
+        0x06: INVALID_CARD_NUM - Unable to find the specified controller ID
         Args:
             args (list):
         Returns:
@@ -47,12 +69,30 @@ class Controller():
         Raises:
             RuntimeError: if command fails
         """
-        return self.runner._execute([cmd, self.id] + args)[0]
+        args = args or []
+        if type(cmd) == str:
+            cmd = [cmd]
+        out, err, rc = self.runner.run(args=[self.runner.path] + cmd + [self.id] + args, universal_newlines=True)
+        if out:
+            out = runner.sanitize_stdout(out, 'Command ')
+        return out, rc
+
+    def _execute(self, cmd, args=[]):
+        """Execute a controller command
+
+        Args:
+            args (list):
+        Return:
+            str: output
+        Raises:
+            RuntimeError: if command fails
+        """
+        return self._exec(cmd, args)[0]
 
     def initialize(self):
         self.update()
         self.get_pds()
-        self.get_lds()
+        self.get_vds()
         self.get_tasks()
 
     @property
@@ -116,17 +156,9 @@ class Controller():
         result = runner.cut_lines(result, 4)
         section = list(filter(None, result.split(runner.SEPARATOR_SECTION)))
 
-        info = section[0]
-        for line in info.split('\n'):
+        for line in section[0].split('\n'):
             if runner.SEPARATOR_ATTRIBUTE in line:
                 key, value = runner.convert_property(line)
-
-                if key == 'pci_address':
-                    #changing from 0:d9:0:0 to lspci format 0:d9:00.0
-                    value = value.replace(':0:', ':00:')
-                    value = value.split(':')
-                    value = ':'.join(value[:-1]) + '.' + value[-1]
-
                 self.__setattr__(key, value)
                 
                 # pystorcli compliance
@@ -135,10 +167,11 @@ class Controller():
                 # TODO: did not decide about naming, adding both. the second one is better for pystorcli
                 self.facts[key] = value
                 self.facts[key.replace('Controller ', '')] = value
-
+        if len(section) == 1:
+            return
         for idx in range(1, len(section), 2):
             if not section[idx].replace(' ', ''):
-                print('NO SECTION') # TODO: remove it later
+                print('NO SECTION') # TODO: this print is only for debug, did not see this case, remove it later
             attr = runner.convert_key_dict(section[idx])
             # pystorcli compliance
             attr = attr.replace('Information', '')
@@ -156,9 +189,9 @@ class Controller():
                 # pystorcli compliance
                 self.facts[attr] = props
 
-        # TODO: remove it later
-        print('print(self.facts):')
-        print(self.facts)
+    @property
+    def lds(self):
+        return self.vds
 
     def get_lds(self):
         return self.get_vds()
@@ -171,33 +204,17 @@ class Controller():
             return []
         if 'No logical devices configured' in result:
             return []
-        self.lds = []
+        self.vds = []
         result = runner.cut_lines(result, 4)
         for part in result.split('\n\n'):
             sections = part.split(runner.SEPARATOR_SECTION)
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = LogicalDrive(self, ldid, cmdrunner=self.runner)
+            ld = LogicalDrive(self, ldid)
             ld.update(lines)
-
-            if 'Logical Device segment information' in part:
-                segments = sections[-1]
-                for line in list(filter(None, segments.split('\n'))):
-                    line = ':'.join(line.split(':')[1:])
-                    state = line.split()[0].strip()
-                    serial = line.split(')')[-1].strip()
-                    props = line.split('(')[1].split(')')[0].split(',')
-                    if len(props) == 5:
-                        enclosure = None
-                        size, protocol, type_, channel, slot = props
-                    else:
-                        size, protocol, type_, channel, enclosure, slot = props
-                    channel = channel.split(':')[1]
-                    slot = slot.split(':')[1]
-                    ld.segments.append(LogicalDriveSegment(channel, slot, state, serial, protocol, type_, size, enclosure))
-            self.lds.append(ld)
-        return self.lds
+            self.vds.append(ld)
+        return self.vds
     
     def get_arrays(self):
         """Parse the info about drive arrays."""
@@ -214,7 +231,7 @@ class Controller():
             options = sections[0]
             lines = list(filter(None, options.split('\n')))
             ldid = lines[0].split()[-1]
-            ld = Array(self, ldid, cmdrunner=self.runner)
+            ld = Array(self, ldid)
             ld.update(lines)
             self.arrays.append(ld)
         return self.arrays
@@ -239,12 +256,12 @@ class Controller():
 
             if 'Device is a Hard drive' not in part:
                 # this is an expander\enclosure case
-                enc = Enclosure(self, channel, device, cmdrunner=self.runner)
+                enc = Enclosure(self, channel, device)
                 self.enclosures.append(enc)
                 enc.update(lines)
                 continue
 
-            drive = PhysicalDrive(self, channel, device, cmdrunner=self.runner)
+            drive = PhysicalDrive(self, channel, device)
             drive.update(lines)
             self._drives.append(drive)
         return self._drives
@@ -300,6 +317,26 @@ class Controller():
     def set_stats_data_collection(self, enable=True):
         result = self._execute('SETSTATSDATACOLLECTION', ['Enable' if enable else 'Disable'])
         return result
+    
+    def set_cache(self, mode, args=None):
+        """Set the cache for the drive.
+        ARCCONF SETCACHE <Controller#> LOGICALDRIVE <LogicalDrive#> <logical mode> [noprompt] [nologs]
+        ARCCONF SETCACHE <Controller#> DRIVEWRITECACHEPOLICY <DriveType> <CachePolicy> [noprompt] [nologs]
+        ARCCONF SETCACHE <Controller#> CACHERATIO <read#> <write#>
+        ARCCONF SETCACHE <Controller#> WAITFORCACHEROOM <enable | disable>
+        ARCCONF SETCACHE <Controller#> NOBATTERYWRITECACHE <enable | disable>
+        ARCCONF SETCACHE <Controller#> WRITECACHEBYPASSTHRESHOLD <threshold size>
+        ARCCONF SETCACHE <Controller#> RECOVERCACHEMODULE
+
+        Args:
+            mode (str): setcache mode
+            args (list): list of setcache args
+        Returns:
+            bool: True if success
+        """
+        args = [mode] + (args or [])
+        result, rc = self._execute('SETCACHE', args)
+        return not rc
 
     def create_ld(self, *args, **kwargs):
         return self.create_vd(*args, **kwargs)
@@ -336,9 +373,45 @@ class Controller():
                     drv_list += [d.channel, d.device]
                 drives = ' '.join(drv_list)
         args.append(drives)
-        self._execute('CREATE', args + ['noprompt'])
+        result = self._execute('CREATE', args + ['noprompt'])
+        if 'Command aborted' in result:
+            #TODO: maybe return rc ?
+            return None
         # TODO: if name is empty then we return None and user should find the vd by himself ?
-        # but if name is a dup of other ld, then what? solution - find ld according to drives
-        for ld in self.get_lds():
-            if ld.logical_device_name == name:
-                return ld
+        # but if name is a dup of other ld, then what? solution - find vd according to drives?
+        for vd in self.get_vds():
+            if vd.name == name:
+                return vd
+        print(self.vds)
+        print([v.name for v in self.vds])
+
+    def get_version(self):
+        """Check the versions of all connected controllers.
+
+        Returns:
+            dict: controller with there version numbers for bios, firmware, etc.
+        """
+        versions = {}
+        result = self._execute('GETVERSION')
+        result = runner.cut_lines(result, 1)
+        for part in result.split('\n\n'):
+            lines = part.split('\n')
+            id_ = lines[0].split('#')[1]
+            versions[id_] = {}
+            for line in lines[2:]:
+                key = line.split(':')[0].strip()
+                value = line.split(':')[1].strip()
+                versions[id_][key] = value
+        return versions
+
+    def list(self):
+        """List all controllers by their ids.
+
+        Returns:
+            list: list of controller ids
+        """
+        ids = self._execute('LIST')
+        ids = runner.cut_lines(ids, 6)
+        res = list(filter(None, res.split('\n')))
+        ids = [line.split(':')[0].strip().split()[1] for line in res]
+        return ids

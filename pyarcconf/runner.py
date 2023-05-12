@@ -1,4 +1,5 @@
 """Command execute and output parse methods"""
+import humanfriendly
 import os
 import re
 import shutil
@@ -90,9 +91,13 @@ def convert_property(key, value=None):
     """
     if not value:
         if SEPARATOR_ATTRIBUTE not in key:
-            print(f'ERROR: {key} is not a property')
+            # TODO: this print is only for debug, did not see this case, remove it later
+            print(f'ERROR: {key} {value} is not a property')
             return
-        key, value = key.split(SEPARATOR_ATTRIBUTE)
+        parts = key.split(SEPARATOR_ATTRIBUTE)
+        if len(parts) > 2:
+            parts[1] = SEPARATOR_ATTRIBUTE.join(parts[1:])
+        key, value = parts[0], parts[1]
     key = convert_key_attribute(key)
     value = convert_value_attribute(value)
     return key, value
@@ -101,9 +106,10 @@ def convert_property(key, value=None):
 def convert_value_attribute(value):
     """Convert a string to class attribute value"""
     if len(value.split()) == 2:
+        # converting to raw bytes
         size, unit = value.split()
         if size.isdigit() and unit in ['B', 'KB', 'MB', 'GB']:
-            return bytes_fmt(size)
+            return humanfriendly.parse_size(value)
     value = value.strip()
     if value.lower() in ['enabled', 'yes', 'true']:
         value = True
@@ -146,20 +152,15 @@ def convert_key_dict(line):
     return key
 
 
-def bytes_fmt(value):
-    """Format a byte value human readable.
+def format_size(value):
+    """Format a byte value to human readable.
 
     Args:
         value (float): value of bytes
-    Returns:
-        str: formated value with unit
+    Return:
+        str: formatted value with unit
     """
-    value = float(value)
-    for unit in ['', 'K', 'M', 'G']:
-        if abs(value) < 1024.0:
-            return '{:3.2}f{}B'.format(value, unit)
-        value /= 1024.0
-    return '{:3.2}fTB'.format(value, 'G')
+    return humanfriendly.format_size(value)
 
 
 def get_properties(section):
@@ -176,9 +177,11 @@ def get_properties(section):
             sub_section = convert_key_dict(line)
 
         if SEPARATOR_ATTRIBUTE in line:
-            key, value = line.split(SEPARATOR_ATTRIBUTE)
-            key = convert_key_dict(key)
-            value = convert_value_attribute(value)
+            parts = line.split(SEPARATOR_ATTRIBUTE)
+            if len(parts) > 2:
+                parts[1] = SEPARATOR_ATTRIBUTE.join(parts[1:])
+            key = convert_key_dict(parts[0])
+            value = convert_value_attribute(parts[1])
             if sub_section:
                 if not props.get(sub_section, None):
                     props[sub_section] = {}

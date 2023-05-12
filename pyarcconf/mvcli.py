@@ -5,66 +5,21 @@ from . import runner
 SEPARATOR_SECTION = 25 * '-'
 
 
-class MVCLI():
-    """MVCLI wrapper class."""
-    def __init__(self, cmdrunner=None):
-        self.runner = cmdrunner or runner.CMDRunner()
-
-    def _execute(self, cmd, args=None):
-        """Execute a command
-        Args:
-            cmd: list or string of command to run
-            args (list): list of args for the command
-        Returns:
-            str: command output
-        """
-        args = args or []
-        if type(cmd) == str:
-            cmd = [cmd]
-        cmd = f'{self.runner.path} {" ".join(cmd + args)}'
-        out, err, rc = self.runner.run(args=cmd, universal_newlines=True)
-        if '>' in cmd:
-            # out was redirected
-            return out, rc
-        out = out.split('\n')
-        out = runner.cut_lines(out, 2)
-        out = runner.sanitize_stdout(out)
-        return '\n'.join(out), rc
-
-    def get_controllers(self):
-        """Get all controller objects for further interaction.
-
-        Returns:
-            list: list of controller objects.
-        """
-        #from common.pyarcconf.controller import Controller
-        result = self._execute('info -o hba')[0]
-        #result = runner.cut_lines(result, 6)
-        result = result.split('\n\n')
-        controllers = []
-        for info in result:
-            controllers.append(Controller(info, self))
-        return controllers
-
-
-
 class Drive():
     """Object which represents a physcial \ virtual drive."""
 
-    def __init__(self, controller_obj, id_, cmdrunner=None):
+    def __init__(self, controller_obj, id_):
         """Initialize a new Drive object."""
-        self.runner = cmdrunner or MVCLI()
         self.controller = controller_obj
         self.controller_id = str(controller_obj.id)
         self.id = str(id_)
-        self.size = None
 
         # pystorcli compliance
         self.facts = {}
 
     def __repr__(self):
         """Define a basic representation of the class object."""
-        return f'<{"VD" if self.raid else "PD"} {self.id} | {self.raid} {self.size}>'
+        return f'<{"VD" if self.raid else "PD"} {self.id} | {self.raid} {self.capacity}>'
 
     def update(self, config):
         if config and type(config) == list:
@@ -87,6 +42,10 @@ class Drive():
     @property
     def os_name(self):
         return 'TODO'
+    # pysmart compliance
+    @property
+    def capacity(self):
+        return runner.format_size(getattr(self, 'size', ''))
 
 
 class Controller():
@@ -94,7 +53,7 @@ class Controller():
 
     def __init__(self, info, cmdrunner=None):
         """Initialize a new controller object."""
-        self.runner = cmdrunner or MVCLI()
+        self.runner = cmdrunner or runner.CMDRunner()
         self.mode = ''
         self._drives = []
 
@@ -109,15 +68,31 @@ class Controller():
         self.id = self.id.strip()
         self.update(info)
 
-        # Setting default adapter for the following CLI commands
-        # (not mandatory, just in case host has several marvels)
-        self._execute(f'adapter -i {self.id}')
-
     def __repr__(self):
         """Define a basic representation of the class object."""
         return '<Controller{} | {} {}>'.format(
             self.id, self.mode, self.model
         )
+
+    def _exec(self, cmd, args=None):
+        """Generic Execute a command with runner
+        Args:
+            cmd: list or string of command to run
+            args (list): list of args for the command
+        Returns:
+            str: command output
+        """
+        args = args or []
+        if type(cmd) == str:
+            cmd = [cmd]
+        cmd = f'{self.runner.path} {" ".join(cmd + args)}'
+        out, err, rc = self.runner.run(args=cmd, universal_newlines=True)
+        if not out:
+            return '', rc
+        out = out.split('\n')
+        out = runner.cut_lines(out, 2)
+        out = runner.sanitize_stdout(out)
+        return '\n'.join(out), rc
 
     def _execute(self, cmd, args=[], rc=False):
         """Execute a command using arcconf.
@@ -129,8 +104,17 @@ class Controller():
         Raises:
             RuntimeError: if command fails
         """
-        result = self.runner._execute([cmd] + args)
+        result = self._exec([cmd] + args)
         return (result[0], result[1]) if rc else result[0]
+
+    def get_controllers(self):
+        """Get all controller objects for further interaction.
+
+        Returns:
+            list: list of controller objects.
+        """
+        result = self._execute('info -o hba')[0].split('\n\n')
+        return [Controller(info, self.runner) for info in result]
 
     @property
     def model(self):
@@ -196,11 +180,18 @@ class Controller():
 
             Information of all HBAs are retrieved.
 
-            """
+        """
+        if not self.id:
+            print('Please set controller id to update, aborting')
+            return
         result = info or self._execute(f'info -o hba -i {self.id}')
         if not result:
             print('Command failed, aborting')
             return
+
+        # Setting default adapter for the following CLI commands
+        # (not mandatory, just in case host has several marvels)
+        self._execute(f'adapter -i {self.id}')
 
         section = list(filter(None, result.split('\n\n')))
         get_info = self._execute(f'get -o hba')
@@ -228,7 +219,7 @@ class Controller():
         idx = 0
         for part in result:
             get_info = self._execute(f'get -o pd -i {idx}')
-            drive = Drive(self, idx, cmdrunner=self.runner)
+            drive = Drive(self, idx)
             drive.update(part + '\n' + get_info)
             self._drives.append(drive)
             idx += 1
@@ -244,7 +235,7 @@ class Controller():
         idx = 0
         for part in result:
             get_info = self._execute(f'get -o vd -i {idx}')
-            drive = Drive(self, idx, cmdrunner=self.runner)
+            drive = Drive(self, idx)
             drive.update(part + '\n' + get_info)
             self._drives.append(drive)
             idx += 1
